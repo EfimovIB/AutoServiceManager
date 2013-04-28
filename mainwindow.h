@@ -10,25 +10,15 @@ namespace Ui
 
 namespace asmt
 {
-	class DatabaseManager;
-	class MainWindow : public QMainWindow
-	{
-		Q_OBJECT
-	public:
-		MainWindow();
-		~MainWindow();
+class MainWindow : public QMainWindow
+{
+public:
+	MainWindow();
+	~MainWindow();
 
-	private slots:
-		void initDatabase() const;
-		void dropDatabase() const;
-		void barcodeEntered() const;
-		void addGoods();
-		void updateGoodsList();
-
-	private:
-		Ui::MainWindow* m_ui;
-		DatabaseManager* m_dm;
-	};
+private:
+	Ui::MainWindow* m_ui;
+};
 }
 
 #endif //ASM_MAINWINDOW_H

@@ -2,17 +2,29 @@ HEADERS += mainwindow.h \
            customer.h \
            goods.h \
            service.h \
-           warehouse.h \
-           databasemanager.h 
+           warehousewidget.h \
+		   databasewidget.h \
+		   clientswidget.h \
+           databasemanager.h \
+		   connection.h \
+		   manufacturer.h \
+		   asmapi.h
 	
 SOURCES += main.cpp \
            mainwindow.cpp \
            customer.cpp \
            goods.cpp \
            service.cpp \
-           warehouse.cpp \
-           databasemanager.cpp 
+           warehousewidget.cpp \
+		   databasewidget.cpp \
+		   clientswidget.cpp \
+           databasemanager.cpp \
+		   connection.cpp \
+		   manufacturer.cpp
 		   
-FORMS += mainwindow.ui
+FORMS += mainwindow.ui \
+         databasewidget.ui \
+		 warehousewidget.ui \
+         clientswidget.ui
 		 
 #RESOURCES += .qrc
