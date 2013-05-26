@@ -10,15 +10,21 @@ class Manufacturer : public QObject
 {
 	Q_OBJECT
 public:
-	Manufacturer(const QString& _name);
-
+	int id() const;
 	const QString& name() const;
 
-	static QList<Manufacturer*> manufacturer();
+	static Manufacturer* addManufacturer(const QString& _name);
+	static const QList<Manufacturer*> manufacturers();
+	static const Manufacturer const* manufacturer(int _id);
+	static bool exist(int _id);
 
-public slots:
-	void setName(const QString& _name);
-
+private:
+	Manufacturer();
+	static void checkListManufacturer();
+	static void downloadListManufacturer();
+	static int biggestExistId();
+	void addInDatabase();
+	
 private:
 	int m_id;
 	QString m_name;

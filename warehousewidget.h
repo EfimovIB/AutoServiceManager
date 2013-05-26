@@ -25,6 +25,7 @@ private slots:
 	void barcodeEntered() const;
 	void addGoods();
 	void itemChanged(QTableWidgetItem* _item);
+	void cellDoubleClicked(int _row, int _column);
 
 private:
 	void updateGoodsList();

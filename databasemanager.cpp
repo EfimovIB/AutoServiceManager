@@ -10,16 +10,45 @@ namespace asmt
 
 void DatabaseManager::initTables()
 {
-	QString text = "create table " + WarehouseTableName + " ("
-						"barcode    varchar(80) not null,"
-						"name varchar(100),"
-						"count int"
-						");";
+	QString text;
+
+	text = "create table " + WarehouseTableName + " ("
+		"barcode       varchar(80) not null,"
+		"name          varchar(100),"
+		"manufacturer  int,"
+		"count         int"
+		");";
+
 	execInitTable(text);
 	
 	text = "create table " + ManufacturerTableName + " ("
-		"id   int not null,"
-		"name varchar(100)"
+		"id            int not null,"
+		"name          varchar(100)"
+		");";
+
+	execInitTable(text);
+
+	text = "create table " + PersonTableName + " ("
+		"id            varchar(100) not null,"
+		"name          varchar(100),"
+		"surname       varchar(100),"
+		"patronymic    varchar(100),"
+		"phones        text,"
+		"type          int"
+		");";
+
+	execInitTable(text);
+
+	text = "create table " + ServiceTableName + " ("
+		"id                    varchar(100) not null,"
+		"clientId             varchar(100),"
+		"masterId             varchar(100),"
+		"clientComments       text,"
+		"masterComments       text,"
+		"changed               text,"
+		"startDate             varchar(100),"
+		"endDate               varchar(100),"
+		"price                 real"
 		");";
 
 	execInitTable(text);
@@ -29,6 +58,8 @@ void DatabaseManager::dropTables()
 {
 	dropTable(WarehouseTableName);
 	dropTable(ManufacturerTableName);
+	dropTable(PersonTableName);
+	dropTable(ServiceTableName);
 }
 
 void DatabaseManager::dropTable(const QString& _name)

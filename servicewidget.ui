@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ServiceWidget</class>
+ <widget class="QWidget" name="ServiceWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>702</width>
+    <height>442</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTableWidget" name="table">
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Деталь</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Дата поставки</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Дата окончания</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Владелец</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
