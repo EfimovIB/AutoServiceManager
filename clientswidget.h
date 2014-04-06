@@ -6,7 +6,7 @@
 
 namespace Ui
 {
-	class ClientsWidget;
+    class ClientsWidget;
 }
 
 class QTableWidgetItem;
@@ -16,27 +16,31 @@ namespace asmt
 class Person;
 class ClientsWidget : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	ClientsWidget();
-	~ClientsWidget();
+    ClientsWidget();
+    ~ClientsWidget();
+
+signals:
+    void serviceAdded();
 
 protected:
-	void showEvent(QShowEvent* _event);
-	void resizeEvent(QResizeEvent* _event);
+    void showEvent(QShowEvent* _event);
+    void resizeEvent(QResizeEvent* _event);
 
 protected slots:
-	void addClient();
-	void itemChanged(QTableWidgetItem* _item);
-	void addService();
+    void addClient();
+    void itemChanged(QTableWidgetItem* _item);
+    void addService();
 
 private:
-	void updateClientsList();
-	void correctTableColumnWidth();
+    void updateClientsList();
+    void correctTableColumnWidth();
+
 private:
-	Ui::ClientsWidget* m_ui;
-	bool m_firstTime;
-	QList<Person*> m_clients;
+    Ui::ClientsWidget* m_ui;
+    bool m_firstTime;
+    QList<Person*> m_clients;
 };
 }
 

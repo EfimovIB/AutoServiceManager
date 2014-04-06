@@ -8,41 +8,41 @@ namespace asmt
 {
 class Connection : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	Connection();
+    Connection();
 
-	const QString& host() const;
-	const QString& database() const;
-	const QString& user() const;
-	const QString& password() const;
+    const QString& host() const;
+    const QString& database() const;
+    const QString& user() const;
+    const QString& password() const;
 
-	bool opened() const;
-	const QString& error() const;
+    bool opened() const;
+    const QString& error() const;
 
 public slots:
-	void setHost(const QString& _host);
-	void setDatabase(const QString& _database);
-	void setUser(const QString& _user);
-	void setPassword(const QString& _password);
+    void setHost(const QString& _host);
+    void setDatabase(const QString& _database);
+    void setUser(const QString& _user);
+    void setPassword(const QString& _password);
 
-	void connect();	
+    void connect();
 
 signals:
-	void open();
-	void stateChanged(bool _opened);
+    void open();
+    void stateChanged(bool _opened);
 
 private:
-	void downloadSettings();
-	void uploadSettings();
+    void downloadSettings();
+    void uploadSettings();
 
 private:
-	QString m_host;
-	QString m_database;
-	QString m_user;
-	QString m_password;
+    QString m_host;
+    QString m_database;
+    QString m_user;
+    QString m_password;
 
-	QString m_connectError;
+    QString m_connectError;
 };
 }
 

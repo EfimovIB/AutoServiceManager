@@ -5,69 +5,69 @@
 
 namespace asmt
 {
-	ManufacturerDialog::ManufacturerDialog(QWidget* _parent, Qt::WindowFlags _f)
-		:QDialog(_parent, _f),
-		m_ui(new Ui::ManufacturerDialog)
-	{
-		m_ui->setupUi(this);
-		fillList();
-		connect(m_ui->addButton,  SIGNAL(pressed()),                     SLOT(addManufacturer()));
-		connect(m_ui->lineEdit,   SIGNAL(returnPressed()),               SLOT(addManufacturer()));
-		connect(m_ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(itemClicked(QListWidgetItem*)));
-	}
+ManufacturerDialog::ManufacturerDialog(QWidget* _parent, Qt::WindowFlags _f)
+  : QDialog(_parent, _f)
+  , m_ui(new Ui::ManufacturerDialog)
+{
+    m_ui->setupUi(this);
+    fillList();
+    connect(m_ui->addButton,  SIGNAL(pressed()),                     SLOT(addManufacturer()));
+    connect(m_ui->lineEdit,   SIGNAL(returnPressed()),               SLOT(addManufacturer()));
+    connect(m_ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(itemClicked(QListWidgetItem*)));
+}
 
-	ManufacturerDialog::~ManufacturerDialog()
-	{
-		delete m_ui;
-	}
+ManufacturerDialog::~ManufacturerDialog()
+{
+    delete m_ui;
+}
 
-	Manufacturer* ManufacturerDialog::getManufacturer(QWidget* _parent)
-	{
-		ManufacturerDialog d(_parent);
-		if (d.exec() == QDialog::Accepted)
-			return d.choosedManufacturer();
-		
-		return NULL;
-	}
+Manufacturer* ManufacturerDialog::getManufacturer(QWidget* _parent)
+{
+    ManufacturerDialog d(_parent);
+    if (d.exec() == QDialog::Accepted)
+        return d.choosedManufacturer();
 
-	Manufacturer* ManufacturerDialog::choosedManufacturer() const
-	{
-		int r = m_ui->listWidget->currentRow();
-		return Manufacturer::manufacturers()[r];
-	}
+    return NULL;
+}
 
-	void ManufacturerDialog::fillList()
-	{
-		foreach(Manufacturer* m, Manufacturer::manufacturers())
-			m_ui->listWidget->addItem(m->name());
-	}
+Manufacturer* ManufacturerDialog::choosedManufacturer() const
+{
+    int r = m_ui->listWidget->currentRow();
+    return Manufacturer::manufacturers()[r];
+}
 
-	void ManufacturerDialog::updateList()
-	{
-		m_ui->listWidget->clear();
-		fillList();
-	}
+void ManufacturerDialog::fillList()
+{
+    foreach(Manufacturer* m, Manufacturer::manufacturers())
+        m_ui->listWidget->addItem(m->name());
+}
 
-	void ManufacturerDialog::addManufacturer()
-	{
-		QString name = m_ui->lineEdit->text();
+void ManufacturerDialog::updateList()
+{
+    m_ui->listWidget->clear();
+    fillList();
+}
 
-		if (name.isEmpty())
-			return;
-		
-		m_ui->lineEdit->clear();
+void ManufacturerDialog::addManufacturer()
+{
+    QString name = m_ui->lineEdit->text();
 
-		Manufacturer::addManufacturer(name);
+    if (name.isEmpty())
+        return;
 
-		updateList();
-	}
+    m_ui->lineEdit->clear();
 
-	void ManufacturerDialog::itemClicked(QListWidgetItem* _item)
-	{
-		if (NULL == _item)
-			return;
+    Manufacturer::addManufacturer(name);
 
-		accept();
-	}
+    updateList();
+}
+
+void ManufacturerDialog::itemClicked(QListWidgetItem* _item)
+{
+    if (NULL == _item)
+        return;
+
+    accept();
+}
 
 }

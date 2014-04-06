@@ -5,7 +5,7 @@
 
 namespace Ui
 {
-	class ServiceWidget;
+    class ServiceWidget;
 }
 
 namespace asmt
@@ -13,19 +13,22 @@ namespace asmt
 class Service;
 class ServiceWidget : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	ServiceWidget();
-	~ServiceWidget();
+    ServiceWidget();
+    ~ServiceWidget();
+
+public slots:
+    void updateForm();
 
 private:
-	void fill();
+    void fill();
 
 private:
-	QList<Service> m_services;
+    QList<Service> m_services;
 
 private:
-	Ui::ServiceWidget* m_ui;
+    Ui::ServiceWidget* m_ui;
 };
 }
 

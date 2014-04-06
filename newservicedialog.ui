@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>392</width>
+    <height>174</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,44 +15,94 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="placeholderText">
-      <string>Агрегат</string>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLineEdit" name="name">
+       <property name="placeholderText">
+        <string>Имя агрегат</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="type">
+       <property name="placeholderText">
+        <string>Тип агрегата</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="car">
+       <property name="placeholderText">
+        <string>Машина</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="number">
+       <property name="placeholderText">
+        <string>Номер агрегата</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="box">
+       <property name="placeholderText">
+        <string>Номер контейнера</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="0" column="1">
-    <widget class="QComboBox" name="masters"/>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Комментарий клиента</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPlainTextEdit" name="comments">
+       <property name="documentTitle">
+        <string/>
+       </property>
+       <property name="plainText">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="0" column="2">
-    <widget class="QDateEdit" name="date"/>
-   </item>
-   <item row="2" column="2">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>Добавить</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>290</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0" colspan="3">
-    <widget class="QPlainTextEdit" name="comments">
-     <property name="plainText">
-      <string/>
-     </property>
-    </widget>
+   <item row="1" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QDateEdit" name="date"/>
+     </item>
+     <item>
+      <widget class="QComboBox" name="masters"/>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>290</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Добавить</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

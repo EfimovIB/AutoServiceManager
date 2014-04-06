@@ -8,7 +8,7 @@ class QTableWidgetItem;
 
 namespace Ui
 {
-	class WarehouseWidget;
+    class WarehouseWidget;
 }
 
 namespace asmt
@@ -16,30 +16,30 @@ namespace asmt
 class Goods;
 class WarehouseWidget : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	WarehouseWidget();
-	~WarehouseWidget();
+    WarehouseWidget();
+    ~WarehouseWidget();
 
 private slots:
-	void barcodeEntered() const;
-	void addGoods();
-	void itemChanged(QTableWidgetItem* _item);
-	void cellDoubleClicked(int _row, int _column);
+    void barcodeEntered() const;
+    void addGoods();
+    void itemChanged(QTableWidgetItem* _item);
+    void cellDoubleClicked(int _row, int _column);
 
 private:
-	void updateGoodsList();
-	void correctTableColumnWidth();
+    void updateGoodsList();
+    void correctTableColumnWidth();
 
-	void showEvent(QShowEvent* _event);
-	void resizeEvent(QResizeEvent* _event);
+    void showEvent(QShowEvent* _event);
+    void resizeEvent(QResizeEvent* _event);
 
-	Goods* goodsByBarcode(const QString& _code) const;
+    Goods* goodsByBarcode(const QString& _code) const;
 
 private:
-	Ui::WarehouseWidget* m_ui;
-	bool m_firstTime;
-	QList<Goods*> m_goods;
+    Ui::WarehouseWidget* m_ui;
+    bool m_firstTime;
+    QList<Goods*> m_goods;
 };
 }
 

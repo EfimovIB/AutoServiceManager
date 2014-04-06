@@ -8,63 +8,63 @@
 namespace asmt
 {
 WarehouseTableDelegate::WarehouseTableDelegate(QObject* _parent)
-	: QItemDelegate(_parent)
+  : QItemDelegate(_parent)
 {}
 
 QWidget* WarehouseTableDelegate::createEditor(QWidget* _parent, const QStyleOptionViewItem& _option, const QModelIndex& _index) const
  {
-	 if (_index.column() == ManufacturerColumn)
-	 {
-		/*QComboBox* editor = new QComboBox(_parent);
-		
-		foreach(Manufacturer* m , Manufacturer::manufacturers())
-			editor->addItem(m->name());
+     if (_index.column() == ManufacturerColumn)
+     {
+        /*QComboBox* editor = new QComboBox(_parent);
 
-		editor->addItem("Не указан");
-		editor->addItem("Новый");
+        foreach(Manufacturer* m , Manufacturer::manufacturers())
+            editor->addItem(m->name());
 
-		return editor;
-		*/
-		 return new QDialog(_parent);
-	 }
+        editor->addItem("Не указан");
+        editor->addItem("Новый");
 
-	 return QItemDelegate::createEditor(_parent, _option, _index);
+        return editor;
+        */
+         return new QDialog(_parent);
+     }
+
+     return QItemDelegate::createEditor(_parent, _option, _index);
  }
 
  void WarehouseTableDelegate::setEditorData(QWidget* _editor, const QModelIndex& _index) const
  {
-	 if (_index.column() == ManufacturerColumn)
-	 {
-	/* QString value = _index.model()->data(_index, Qt::EditRole).toString();
+     if (_index.column() == ManufacturerColumn)
+     {
+    /* QString value = _index.model()->data(_index, Qt::EditRole).toString();
 
-	 QComboBox* comboBox = static_cast<QComboBox*>(_editor);*/
-	 //spinBox->setValue(value);
-	 }
+     QComboBox* comboBox = static_cast<QComboBox*>(_editor);*/
+     //spinBox->setValue(value);
+     }
 
-	 QItemDelegate::setEditorData(_editor, _index);
+     QItemDelegate::setEditorData(_editor, _index);
  }
 
  void WarehouseTableDelegate::setModelData(QWidget* _editor, QAbstractItemModel* _model, const QModelIndex& _index) const
  {
-	 if (_index.column() == ManufacturerColumn)
-	 {
-		// QComboBox* comboBox = static_cast<QComboBox*>(_editor);
-		// spinBox->interpretText();
-		// int value = spinBox->value();
+     if (_index.column() == ManufacturerColumn)
+     {
+        // QComboBox* comboBox = static_cast<QComboBox*>(_editor);
+        // spinBox->interpretText();
+        // int value = spinBox->value();
 
-		 // model->setData(index, value, Qt::EditRole);
-	 }
+         // model->setData(index, value, Qt::EditRole);
+     }
 
-	 QItemDelegate::setModelData(_editor, _model, _index);
+     QItemDelegate::setModelData(_editor, _model, _index);
  }
 
  void WarehouseTableDelegate::updateEditorGeometry(QWidget* _editor, const QStyleOptionViewItem& _option, const QModelIndex& _index) const
  {
-	 if (_index.column() == ManufacturerColumn)
-	 {
-	//	_editor->setGeometry(_option.rect);
-	 }
+     if (_index.column() == ManufacturerColumn)
+     {
+    //    _editor->setGeometry(_option.rect);
+     }
 
-	 QItemDelegate::updateEditorGeometry(_editor, _option, _index);
+     QItemDelegate::updateEditorGeometry(_editor, _option, _index);
  }
 }

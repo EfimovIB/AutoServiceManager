@@ -2,6 +2,8 @@ QT                          +=  core gui xml sql
 CONFIG                      +=  build_all debug_and_release warn_off plugin precompile_header
 DEFINES                     +=  ASM_MAKE_DLL
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 CONFIG( debug, debug|release ) {
     __LIBS_DIR              =   debug
     OBJECTS_DIR             +=  tmp/obj/debug
@@ -19,10 +21,10 @@ RCC_DIR                     +=  tmp/rcc
 UI_DIR                      +=  tmp/uic
 DEPENDPATH                  +=  .
 VPATH                       +=  ../core
-INCLUDEPATH                 +=  .                                    \
-								tmp/moc                              \
-								tmp/uic
-								
+INCLUDEPATH                 +=  .       \
+                                tmp/moc \
+                                tmp/uic
+
 LIBS                        +=  -L$${__LIBS_DIR}
 
 #PRECOMPILED_HEADER  = ../../include/ues/stable.h

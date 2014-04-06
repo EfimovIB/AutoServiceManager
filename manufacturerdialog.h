@@ -7,7 +7,7 @@ class QListWidgetItem;
 
 namespace Ui
 {
-	class ManufacturerDialog;
+    class ManufacturerDialog;
 }
 
 namespace asmt
@@ -15,25 +15,25 @@ namespace asmt
 class Manufacturer;
 class ManufacturerDialog : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	ManufacturerDialog(QWidget* _parent = 0, Qt::WindowFlags _f = 0);
-	~ManufacturerDialog();
+    ManufacturerDialog(QWidget* _parent = 0, Qt::WindowFlags _f = 0);
+    ~ManufacturerDialog();
 
-	static Manufacturer* getManufacturer(QWidget* _parent = 0);
+    static Manufacturer* getManufacturer(QWidget* _parent = 0);
 
-	Manufacturer* choosedManufacturer() const;
+    Manufacturer* choosedManufacturer() const;
 
 private:
-	void fillList();
-	void updateList();
+    void fillList();
+    void updateList();
 
 private slots:
-	void addManufacturer();
-	void itemClicked(QListWidgetItem* _item);
+    void addManufacturer();
+    void itemClicked(QListWidgetItem* _item);
 
 private:
-	Ui::ManufacturerDialog* m_ui;
+    Ui::ManufacturerDialog* m_ui;
 };
 }
 

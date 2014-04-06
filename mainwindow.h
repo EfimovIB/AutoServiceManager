@@ -5,7 +5,7 @@
 
 namespace Ui
 {
-	class MainWindow;
+    class MainWindow;
 }
 
 namespace asmt
@@ -13,11 +13,11 @@ namespace asmt
 class MainWindow : public QMainWindow
 {
 public:
-	MainWindow();
-	~MainWindow();
+    MainWindow();
+    ~MainWindow();
 
 private:
-	Ui::MainWindow* m_ui;
+    Ui::MainWindow* m_ui;
 };
 }
 

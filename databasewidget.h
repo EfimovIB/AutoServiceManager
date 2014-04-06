@@ -5,7 +5,7 @@
 
 namespace Ui
 {
-	class DatabaseWidget;
+    class DatabaseWidget;
 }
 
 namespace asmt
@@ -13,19 +13,19 @@ namespace asmt
 class Connection;
 class DatabaseWidget : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	DatabaseWidget();
-	~DatabaseWidget();
+    DatabaseWidget();
+    ~DatabaseWidget();
 
 private slots:
-	void initDatabase() const;
-	void dropDatabase() const;
-	void connectStateChanged(bool);
+    void initDatabase() const;
+    void dropDatabase() const;
+    void connectStateChanged(bool);
 
 private:
-	Ui::DatabaseWidget* m_ui;
-	Connection* m_con;
+    Ui::DatabaseWidget* m_ui;
+    Connection* m_con;
 };
 }
 

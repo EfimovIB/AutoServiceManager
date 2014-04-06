@@ -9,12 +9,12 @@ class DatabaseManager
 {
 public:
 
-	static void initTables();
-	static void dropTables();
+    static void initTables();
+    static void dropTables();
 
 private:
-	static void dropTable(const QString& _name);
-	static void execInitTable(const QString& _text);
+    static void dropTable(const QString& _name);
+    static void execInitTable(const QString& _text);
 };
 }
 

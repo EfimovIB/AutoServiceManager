@@ -1,56 +1,52 @@
-#include <QDebug>
-
-#include "clientswidget.h"
-#include "ui_clientswidget.h"
+#include "masterswidget.h"
+#include "ui_masterswidget.h"
 
 #include "person.h"
-#include "newservicedialog.h"
 
 namespace asmt
 {
+
 static const int NameColumn(1);
 static const int SurnameColumn(0);
 static const int PatronymicColumn(2);
 static const int PhoneColumn(3);
 
-ClientsWidget::ClientsWidget()
-  : QWidget()
-  , m_ui(new Ui::ClientsWidget)
-  , m_firstTime(true)
+MastersWidget::MastersWidget(QWidget *parent)
+  : QWidget(parent)
+  , m_ui(new Ui::MastersWidget)
 {
     m_ui->setupUi(this);
 
-    m_clients = Person::persons(Person::Client);
+    m_clients = Person::persons(Person::Master);
 
-    connect(m_ui->lName, SIGNAL(returnPressed()),                SLOT(addClient()));
+    connect(m_ui->lName, SIGNAL(returnPressed()),                SLOT(addMaster()));
     connect(m_ui->table, SIGNAL(itemChanged(QTableWidgetItem*)), SLOT(itemChanged(QTableWidgetItem*)));
-    connect(m_ui->newService, SIGNAL(pressed()),                 SLOT(addService()));
 }
 
-ClientsWidget::~ClientsWidget()
+MastersWidget::~MastersWidget()
 {
     delete m_ui;
 }
 
-void ClientsWidget::showEvent(QShowEvent* _event)
+void MastersWidget::showEvent(QShowEvent *_event)
 {
     QWidget::showEvent(_event);
 
     if (m_firstTime)
     {
-        updateClientsList();
+        updateMastersList();
         correctTableColumnWidth();
         m_firstTime = false;
     }
 }
 
-void ClientsWidget::resizeEvent(QResizeEvent* _event)
+void MastersWidget::resizeEvent(QResizeEvent *_event)
 {
     QWidget::resizeEvent(_event);
     correctTableColumnWidth();
 }
 
-void ClientsWidget::addClient()
+void MastersWidget::addMaster()
 {
     QString name = m_ui->lName->text();
 
@@ -59,12 +55,12 @@ void ClientsWidget::addClient()
 
     m_ui->lName->clear();
 
-    m_clients << new Person(name);
+    m_clients << new Person(name, Person::Master);
 
-    updateClientsList();
+    updateMastersList();
 }
 
-void ClientsWidget::updateClientsList()
+void MastersWidget::updateMastersList()
 {
     m_ui->table->setRowCount(m_clients.size());
     for (int i = 0; i < m_clients.size(); ++i)
@@ -82,15 +78,15 @@ void ClientsWidget::updateClientsList()
     }
 }
 
-void ClientsWidget::correctTableColumnWidth()
+void MastersWidget::correctTableColumnWidth()
 {
-    int width = (m_ui->table->contentsRect().width() - 1) / m_ui->table->columnCount();
+        int width = (m_ui->table->contentsRect().width() - 1) / m_ui->table->columnCount();
 
-    for (int i = 0; i < m_ui->table->columnCount(); ++i)
-        m_ui->table->setColumnWidth(i, width);
+        for (int i = 0; i < m_ui->table->columnCount(); ++i)
+            m_ui->table->setColumnWidth(i, width);
 }
 
-void ClientsWidget::itemChanged(QTableWidgetItem* _item)
+void MastersWidget::itemChanged(QTableWidgetItem *_item)
 {
     Person* c = m_clients[_item->row()];
 
@@ -106,16 +102,4 @@ void ClientsWidget::itemChanged(QTableWidgetItem* _item)
     if (_item->column() == PhoneColumn)
         c->setPhones(QStringList() << _item->text());
 }
-
-void ClientsWidget::addService()
-{
-    int r = m_ui->table->currentRow();
-    if (-1 == r)
-        return;
-
-    NewServiceDialog::createNewService(m_clients[r], this);
-
-    emit serviceAdded();
-}
-
 }

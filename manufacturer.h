@@ -8,26 +8,26 @@ namespace asmt
 {
 class Manufacturer : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	int id() const;
-	const QString& name() const;
+    int id() const;
+    const QString& name() const;
 
-	static Manufacturer* addManufacturer(const QString& _name);
-	static const QList<Manufacturer*> manufacturers();
-	static const Manufacturer const* manufacturer(int _id);
-	static bool exist(int _id);
+    static Manufacturer* addManufacturer(const QString& _name);
+    static const QList<Manufacturer*> manufacturers();
+    static const Manufacturer* manufacturer(int _id);
+    static bool exist(int _id);
 
 private:
-	Manufacturer();
-	static void checkListManufacturer();
-	static void downloadListManufacturer();
-	static int biggestExistId();
-	void addInDatabase();
-	
+    Manufacturer();
+    static void checkListManufacturer();
+    static void downloadListManufacturer();
+    static int biggestExistId();
+    void addInDatabase();
+
 private:
-	int m_id;
-	QString m_name;
+    int m_id;
+    QString m_name;
 };
 }
 

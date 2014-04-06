@@ -7,30 +7,33 @@ class QDate;
 
 namespace Ui
 {
-	class NewServiceDialog;
+    class NewServiceDialog;
 }
 
 namespace asmt
 {
 class Person;
 class Service;
+class Aggregate;
 class NewServiceDialog : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	NewServiceDialog(QWidget* _parent = 0);
-	~NewServiceDialog();
+    NewServiceDialog(QWidget* _parent = 0);
+    ~NewServiceDialog();
 
-	const QDate& date() const;
-	Person* master() const;
-	QString text() const;
+    const QDate& date() const;
+    Person* master() const;
+    Aggregate* createAggregate() const;
+    QString comment() const;
+    int box() const;
 
-	static Service* createNewService(Person* _client, QWidget* _parent = 0);
+    static Service* createNewService(Person* _client, QWidget* _parent = 0);
 private:
-	QList<Person*> m_masters;
+    QList<Person*> m_masters;
 
 private:
-	Ui::NewServiceDialog* m_ui;
+    Ui::NewServiceDialog* m_ui;
 };
 }
 
