@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     app.installTranslator(&translator);
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("CP1251"));
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("CP1251"));
 
     asmt::MainWindow w;
     w.show();

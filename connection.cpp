@@ -2,6 +2,7 @@
 #include <QSettings>
 #include <QSqlError>
 #include <QSqlDatabase>
+#include <QSqlQuery>
 
 #include "connection.h"
 
@@ -16,6 +17,11 @@ Connection::Connection()
 const QString& Connection::host() const
 {
     return m_host;
+}
+
+unsigned int Connection::port() const
+{
+    return m_port;
 }
 
 const QString& Connection::database() const
@@ -35,17 +41,20 @@ const QString& Connection::password() const
 
 bool Connection::opened() const
 {
-    return m_connectError.isEmpty();
-}
-
-const QString& Connection::error() const
-{
-    return m_connectError;
+    QSqlDatabase db;
+    return db.isOpen();
 }
 
 void Connection::setHost(const QString& _host)
 {
     m_host = _host;
+    uploadSettings();
+    connect();
+}
+
+void Connection::setPort(unsigned int _port)
+{
+    m_port = _port;
     uploadSettings();
     connect();
 }
@@ -75,17 +84,31 @@ void Connection::connect()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
     db.setHostName(m_host);
-    db.setDatabaseName(m_database);// CREATE DATABASE
     db.setUserName(m_user);
     db.setPassword(m_password);
+    db.setPort(m_port);
 
-    m_connectError.clear();
-    if (db.open() == false)
-        m_connectError = db.lastError().databaseText();
+    if (db.open())
+    {
+        QSqlQuery query("create database if not exists " + m_database, db);
+
+        if (query.lastError().text().isEmpty())
+        {
+            db.setDatabaseName(m_database);
+
+            if (db.open())
+            {
+                emit open();
+            }
+        }
+    }
     else
-        emit open();
+    {
+        qDebug() << "Database error: " << db.lastError().databaseText();
 
-    emit stateChanged(db.open());
+    }
+
+    emit stateChanged(db.isOpen());
 }
 
 void Connection::downloadSettings()
@@ -96,6 +119,7 @@ void Connection::downloadSettings()
     m_database = s.value("Database").toString();
     m_user     = s.value("User").toString();
     m_password = s.value("Password").toString();
+    m_port     = s.value("Port", "5432").toUInt();
     s.endGroup();
 }
 
@@ -107,6 +131,7 @@ void Connection::uploadSettings()
     s.setValue("Database", m_database);
     s.setValue("User", m_user);
     s.setValue("Password", m_password);
+    s.setValue("Port", m_port);
     s.endGroup();
 }
 

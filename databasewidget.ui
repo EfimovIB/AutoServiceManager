@@ -51,7 +51,7 @@
         <x>20</x>
         <y>30</y>
         <width>135</width>
-        <height>129</height>
+        <height>181</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -59,6 +59,13 @@
         <widget class="QLineEdit" name="host">
          <property name="placeholderText">
           <string>Хост</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="port">
+         <property name="placeholderText">
+          <string>Порт</string>
          </property>
         </widget>
        </item>
@@ -92,7 +99,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>170</x>
