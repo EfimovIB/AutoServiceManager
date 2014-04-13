@@ -1,5 +1,10 @@
 <RCC>
-  <qresource prefix="button">
-    <file>pictures/plus.png</file>
-  </qresource>
+    <qresource prefix="/button">
+        <file>pictures/plus.png</file>
+        <file>pictures/back.png</file>
+        <file>pictures/home.png</file>
+        <file>pictures/lock.png</file>
+        <file>pictures/new.png</file>
+        <file>pictures/Exit.png</file>
+    </qresource>
 </RCC>

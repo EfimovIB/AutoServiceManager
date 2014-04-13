@@ -12,40 +12,111 @@ void DatabaseManager::initTables()
 {
 QString text;
 
-text = "create table " + WarehouseTableName + " ("
-    "barcode         varchar(80) not null,"
+text = "create table " + PersonTableName + " ("
+    "id              SERIAL PRIMARY KEY,"
     "name            varchar(100),"
-    "manufacturer    int,"
-    "count           int"
+    "surname         varchar(100),"
+    "patronymic      varchar(100)"
+    ");";
+
+execInitTable(text);
+
+text = "create table " + PhoneTableName + " ("
+    "phone           varchar(20) PRIMARY KEY,"
+    "idPerson        int not null"
+    ");";
+
+execInitTable(text);
+
+text = "create table " + MasterTableName + " ("
+    "id              SERIAL PRIMARY KEY,"
+    "idPerson        int not null,"
+    "idMasterState   int not null,"
+    "startDate       varchar(100) not null"
+    ");";
+
+execInitTable(text);
+
+text = "create table " + MasterStateTableName + " ("
+    "id              SERIAL PRIMARY KEY,"
+    "state           varchar(100) not null"
     ");";
 
 execInitTable(text);
 
 text = "create table " + ManufacturerTableName + " ("
-    "id              int not null,"
-    "name            varchar(100)"
+    "id              SERIAL,"
+    "name            varchar(100),"
+    "PRIMARY KEY     (id, name)"
     ");";
 
 execInitTable(text);
 
-text = "create table " + PersonTableName + " ("
-    "id              varchar(100) not null,"
+text = "create table " + SpareTableName + " ("
+    "id              SERIAL PRIMARY KEY,"
+    "barcode         varchar(80) not null,"
+    "name            varchar(100) not null,"
+    "idManufacturer  int not null"
+    ");";
+
+execInitTable(text);
+
+text = "create table " + InvoiceTableName + " ("
+    "id              SERIAL PRIMARY KEY,"
+    "number          varchar(100) not null,"
+    "date            varchar(100) not null"
+    ");";
+
+execInitTable(text);
+
+text = "create table " + InvoiceSpareTableName + " ("
+    "idInvoice       int not null,"
+    "idSpare         int not null,"
+    "price           real not null,"
+    "count           int not null"
+    ");";
+
+execInitTable(text);
+
+text = "create table " + AggregateTableName + " ("
+    "id              SERIAL PRIMARY KEY,"
     "name            varchar(100),"
-    "surname         varchar(100),"
-    "patronymic      varchar(100),"
-    "phones          text,"
-    "type            int"
+    "number          varchar(100),"
+    "idAggregateType int not null,"
+    "idCar           int not null"
+    ");";
+
+execInitTable(text);
+
+text = "create table " + AggregateTypeTableName + " ("
+    "id              SERIAL PRIMARY KEY,"
+    "name            varchar(100) not null"
+    ");";
+
+execInitTable(text);
+
+text = "create table " + CarTableName + " ("
+    "id              SERIAL PRIMARY KEY,"
+    "name            varchar(100) not null"
+    ");";
+
+execInitTable(text);
+
+text = "create table " + ServiceStateTableName + " ("
+    "id              SERIAL PRIMARY KEY,"
+    "name            varchar(100) not null"
     ");";
 
 execInitTable(text);
 
 text = "create table " + ServiceTableName + " ("
-    "id              varchar(100) not null,"
-    "clientId        varchar(100),"
-    "masterId        varchar(100),"
-    "aggregateId     int,"
+    "id              SERIAL PRIMARY KEY,"
+    "idAggregate     int not null,"
+    "idPerson        int not null,"
+    "idMaster        int not null,"
+    "idServiceState  int not null,"
     "boxNumber       int,"
-    "clientComments  text,"
+    "personComments  text,"
     "masterComments  text,"
     "changed         text,"
     "startDate       varchar(100),"
@@ -55,12 +126,12 @@ text = "create table " + ServiceTableName + " ("
 
 execInitTable(text);
 
-text = "create table " + AggregateTableName + " ("
-    "id              int not null,"
-    "name            varchar(100),"
-    "type            varchar(100),"
-    "car             varchar(100),"
-    "number          varchar(100)"
+text = "create table " + UsedSpareTableName + " ("
+    "id              SERIAL PRIMARY KEY,"
+    "idService       int not null,"
+    "idSpare         int not null,"
+    "comments        text,"
+    "date            varchar(100) not null"
     ");";
 
 execInitTable(text);
@@ -68,11 +139,20 @@ execInitTable(text);
 
 void DatabaseManager::dropTables()
 {
-    dropTable(WarehouseTableName);
-    dropTable(ManufacturerTableName);
     dropTable(PersonTableName);
-    dropTable(ServiceTableName);
+    dropTable(PhoneTableName);
+    dropTable(MasterTableName);
+    dropTable(MasterStateTableName);
+    dropTable(ManufacturerTableName);
+    dropTable(SpareTableName);
+    dropTable(InvoiceTableName);
+    dropTable(InvoiceSpareTableName);
     dropTable(AggregateTableName);
+    dropTable(AggregateTypeTableName);
+    dropTable(CarTableName);
+    dropTable(ServiceStateTableName);
+    dropTable(ServiceTableName);
+    dropTable(UsedSpareTableName);
 }
 
 void DatabaseManager::dropTable(const QString& _name)

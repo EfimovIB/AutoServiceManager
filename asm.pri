@@ -15,7 +15,14 @@ HEADERS +=  asmapi.h \
             warehousetabledelegate.h \
             warehouseapi.h \
             masterswidget.h \
-            aggregate.h
+            aggregate.h \
+    mainwidget.h \
+    contentwidget.h \
+    contentwidgethome.h \
+    contentwidgetsettings.h \
+    contentwidgetservice.h \
+    contentwidgetwarehouse.h \
+    contentwidgetaccounting.h
 
 SOURCES += main.cpp \
            mainwindow.cpp \
@@ -33,7 +40,14 @@ SOURCES += main.cpp \
            person.cpp \
            warehousetabledelegate.cpp \
            masterswidget.cpp\
-           aggregate.cpp
+           aggregate.cpp \
+    mainwidget.cpp \
+    contentwidget.cpp \
+    contentwidgethome.cpp \
+    contentwidgetsettings.cpp \
+    contentwidgetservice.cpp \
+    contentwidgetwarehouse.cpp \
+    contentwidgetaccounting.cpp
 
 FORMS += mainwindow.ui \
          warehousewidget.ui \
@@ -42,6 +56,12 @@ FORMS += mainwindow.ui \
          servicewidget.ui \
          manufacturerdialog.ui \
          newservicedialog.ui \
-         masterswidget.ui
+         masterswidget.ui \
+    MainWidget.ui \
+    ContentWidgetHome.ui \
+    ContentWidgetSettings.ui \
+    ContentWidgetService.ui \
+    ContentWidgetWareHouse.ui \
+    ContentWidgetAccounting.ui
 
 RESOURCES += asm.qrc
