@@ -29,6 +29,7 @@ public:
     int box() const;
 
     static Service* createNewService(Person* _client, QWidget* _parent = 0);
+
 private:
     QList<Person*> m_masters;
 

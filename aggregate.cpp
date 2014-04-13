@@ -111,7 +111,7 @@ void Aggregate::addInDatabase()
 
 int Aggregate::maxValue() const
 {
-    QString text = "SELECT MAX(id) AS value FROM" + AggregateTableName;
+    QString text = "SELECT MAX(id) AS value FROM " + AggregateTableName;
 
      QSqlQuery query(text);
      if (false == query.isActive() || false == query.next())

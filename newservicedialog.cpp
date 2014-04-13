@@ -16,7 +16,7 @@ NewServiceDialog::NewServiceDialog(QWidget* _parent)
     m_ui->setupUi(this);
     m_ui->date->setDate(QDate::currentDate());
     m_masters = Person::persons(Person::Master);
-    m_ui->masters->addItem("Мастер");
+    m_ui->masters->addItem(tr("Мастер"));
     foreach(Person* p, m_masters)
         m_ui->masters->addItem(p->fullName());
 }
@@ -41,7 +41,7 @@ Person* NewServiceDialog::master() const
     return m_masters[num - 1];
 }
 
-Aggregate *NewServiceDialog::createAggregate() const
+Aggregate* NewServiceDialog::createAggregate() const
 {
     QString name = m_ui->name->text();
     QString type = m_ui->type->text();

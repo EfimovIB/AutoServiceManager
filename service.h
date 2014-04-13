@@ -38,6 +38,7 @@ public:
     void setBoxNumber(int _boxNumber);
 
 private:
+
     Service();
     static QList<Service> listByTextQueryCondition(const QString& _text);
 
@@ -45,8 +46,11 @@ private:
     void updateClientCommentsInDatabase();
     void updateStartDateInDatabase();
     void updateMasterInDatabase();
+    void updateAggregateInDatabase();
+    void updateBoxNumberInDatabase();
 
 private:
+
     QString m_id;
     const Person* m_client;
     const Person* m_master;

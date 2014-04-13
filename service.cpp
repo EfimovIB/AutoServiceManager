@@ -18,6 +18,7 @@ Service::Service(const Person* _client)
   , m_master(NULL)
   , m_aggregate(NULL)
   , m_price(0)
+  , m_boxNumber(-1)
 {
     addInDatabase();
 }
@@ -31,16 +32,6 @@ Service::Service()
     : m_master(NULL),
       m_aggregate(NULL)
 {}
-int Service::boxNumber() const
-{
-    return m_boxNumber;
-}
-
-void Service::setBoxNumber(int _boxNumber)
-{
-    m_boxNumber = _boxNumber;
-}
-
 
 const QString& Service::id() const
 {
@@ -159,6 +150,18 @@ void Service::setAggregate(Aggregate *_aggregate)
 {
     delete m_aggregate;
     m_aggregate = _aggregate;
+    updateAggregateInDatabase();
+}
+
+int Service::boxNumber() const
+{
+    return m_boxNumber;
+}
+
+void Service::setBoxNumber(int _boxNumber)
+{
+    m_boxNumber = _boxNumber;
+    updateBoxNumberInDatabase();
 }
 
 QList<Service> Service::servicesInProgress()
@@ -238,6 +241,26 @@ void Service::updateMasterInDatabase()
 
     if (query.isActive() == false)
         qDebug() << "Service setMaster query" << text << endl << query.lastError().databaseText();
+}
+
+void Service::updateAggregateInDatabase()
+{
+    int aggregateId = m_aggregate ? m_aggregate->id() : -1;
+
+    QString text = "update " + ServiceTableName + "   set aggregateId = " + QString::number(aggregateId) + " where id = '" + m_id +"'";
+    QSqlQuery query(text);
+
+    if (query.isActive() == false)
+        qDebug() << "Service setAggregate query" << text << endl << query.lastError().databaseText();
+}
+
+void Service::updateBoxNumberInDatabase()
+{
+    QString text = "update " + ServiceTableName + "   set boxNumber = " + QString::number(m_boxNumber) + " where id = '" + m_id +"'";
+    QSqlQuery query(text);
+
+    if (query.isActive() == false)
+        qDebug() << "Service setBoxNumber query" << text << endl << query.lastError().databaseText();
 }
 
 }

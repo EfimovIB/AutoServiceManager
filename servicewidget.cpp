@@ -8,16 +8,18 @@
 
 namespace asmt
 {
-static const int ProductColumn(0);
-static const int StartDateColumn(1);
-static const int EndDateColumn(2);
-static const int OwnerColumn(3);
+static const int IdColumn(0);
+//static const int ProductColumn(1);
+//static const int StartDateColumn(2);
+//static const int EndDateColumn(3);
+static const int OwnerColumn(1);
 
 ServiceWidget::ServiceWidget()
   : QWidget()
   , m_ui(new Ui::ServiceWidget)
 {
     m_ui->setupUi(this);
+
     fill();
 }
 
@@ -40,14 +42,16 @@ void ServiceWidget::fill()
 
     for (int i = 0; i < m_services.size(); ++i)
     {
-        QString product;// = m_services[i]->name();
+        QString id = m_services[i].id();
+//        QString product = m_services[i].name();
         QString stDate = m_services[i].startDateText();
         QString endDate = m_services[i].endDateText();
         QString owner = m_services[i].client()->fullName();
 
-        m_ui->table->setItem(i, ProductColumn,    new QTableWidgetItem(product));
-        m_ui->table->setItem(i, StartDateColumn,  new QTableWidgetItem(stDate));
-        m_ui->table->setItem(i, EndDateColumn,    new QTableWidgetItem(endDate));
+        m_ui->table->setItem(i, IdColumn,         new QTableWidgetItem(id ));
+//        m_ui->table->setItem(i, ProductColumn,    new QTableWidgetItem(product));
+//        m_ui->table->setItem(i, StartDateColumn,  new QTableWidgetItem(stDate));
+//        m_ui->table->setItem(i, EndDateColumn,    new QTableWidgetItem(endDate));
         m_ui->table->setItem(i, OwnerColumn,      new QTableWidgetItem(owner));
     }
 }

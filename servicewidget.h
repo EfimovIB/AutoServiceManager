@@ -15,19 +15,24 @@ class ServiceWidget : public QWidget
 {
     Q_OBJECT
 public:
+
     ServiceWidget();
     ~ServiceWidget();
 
 public slots:
+
     void updateForm();
 
+private slots:
+
+
 private:
+
     void fill();
 
 private:
-    QList<Service> m_services;
 
-private:
+    QList<Service> m_services;
     Ui::ServiceWidget* m_ui;
 };
 }
