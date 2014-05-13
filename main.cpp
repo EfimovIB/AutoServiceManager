@@ -6,6 +6,7 @@
 //#include "mainwindow.h"
 #include "mainwidget.h"
 #include "contentwidgethome.h"
+#include "connection.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,12 +17,16 @@ int main(int argc, char *argv[])
     translator.load("./ts_ru.qm");
     app.installTranslator(&translator);
 
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("CP1251"));
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("CP1251"));
+    QTextCodec* codec = QTextCodec::codecForName("UTF8");
+    QTextCodec::setCodecForLocale(codec);
+    QTextCodec::setCodecForTr(codec);
 
     using namespace asmt;
 //    asmt::MainWindow w;
 //    w.show();
+
+    Connection c;
+    c.connect();
 
     MainWidget w;
     ContentWidgetHome* h = new ContentWidgetHome(&w);

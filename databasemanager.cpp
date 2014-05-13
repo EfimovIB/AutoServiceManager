@@ -38,11 +38,22 @@ text = "create table " + MasterTableName + " ("
 execInitTable(text);
 
 text = "create table " + MasterStateTableName + " ("
-    "id              SERIAL PRIMARY KEY,"
+    "id              int not null PRIMARY KEY,"
     "state           varchar(100) not null"
     ");";
 
 execInitTable(text);
+
+for (int i = 1; i < MasterStateCount; i++)
+{
+    QString state = MasterStateToStr(MasterState(i));
+
+    if (state.isEmpty() == false)
+    {
+        text = "insert into " + MasterStateTableName + " (id, state) values(" + QString::number(i) + ", '" + state + "')" ;
+        execInitTable(text);
+    }
+}
 
 text = "create table " + ManufacturerTableName + " ("
     "id              SERIAL,"
@@ -73,7 +84,8 @@ text = "create table " + InvoiceSpareTableName + " ("
     "idInvoice       int not null,"
     "idSpare         int not null,"
     "price           real not null,"
-    "count           int not null"
+    "count           int not null,"
+    "PRIMARY KEY     (idInvoice, idSpare)"
     ");";
 
 execInitTable(text);

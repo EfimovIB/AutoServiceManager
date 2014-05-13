@@ -6,5 +6,7 @@
         <file>pictures/lock.png</file>
         <file>pictures/new.png</file>
         <file>pictures/Exit.png</file>
+        <file>pictures/accept.png</file>
+        <file>pictures/reject.png</file>
     </qresource>
 </RCC>

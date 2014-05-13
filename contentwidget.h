@@ -18,8 +18,6 @@ public:
     virtual void topButtonclicked() {}
     virtual void bottomButtonclicked() {}
 
-    virtual QString topButtonText() { return QString(); }
-    virtual QString bottomButtonText() { return QString(); }
     virtual QIcon topButtonIcon() { return QIcon(); }
     virtual QIcon bottomButtonIcon() { return QIcon(); }
 

@@ -5,7 +5,8 @@
 #include "contentwidgetservice.h"
 #include "contentwidgetwarehouse.h"
 #include "contentwidgetsettings.h"
-#include "contentwidgetaccounting.h"
+#include "contentwidgetmasters.h"
+
 
 namespace asmt
 {
@@ -16,14 +17,14 @@ ContentWidgetHome::ContentWidgetHome(MainWidget* _mainWidget)
   , m_service(NULL)
   , m_warehouse(NULL)
   , m_settings(NULL)
-  , m_accounting(NULL)
+  , m_masters(NULL)
 {
     m_ui->setupUi(this);
 
     connect(m_ui->service,   SIGNAL(clicked()), SLOT(serviceClicked()));
     connect(m_ui->warehouse, SIGNAL(clicked()), SLOT(warehouseClicked()));
     connect(m_ui->settings,  SIGNAL(clicked()), SLOT(settingsClicked()));
-    connect(m_ui->accounting,  SIGNAL(clicked()), SLOT(accountingClicked()));
+    connect(m_ui->masters,   SIGNAL(clicked()), SLOT(mastersClicked()));
 }
 
 ContentWidgetHome::ContentWidgetHome(ContentWidget* _contentWidget)
@@ -59,12 +60,12 @@ void ContentWidgetHome::settingsClicked()
     switchOn(m_settings);
 }
 
-void ContentWidgetHome::accountingClicked()
+void ContentWidgetHome::mastersClicked()
 {
-    if (!m_accounting)
-        m_accounting = new ContentWidgetAccounting(this);
+    if (!m_masters)
+        m_masters = new ContentWidgetMasters(this);
 
-    switchOn(m_accounting);
+    switchOn(m_masters);
 }
 
 }

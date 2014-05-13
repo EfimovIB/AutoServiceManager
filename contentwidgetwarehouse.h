@@ -11,6 +11,7 @@ namespace Ui
 namespace asmt
 {
 
+class ContentWidgetInvoiceCreator;
 class ContentWidgetWareHouse : public ContentWidget
 {
     Q_OBJECT
@@ -21,6 +22,7 @@ public:
     explicit ContentWidgetWareHouse(ContentWidget* _contentWidget);
     ~ContentWidgetWareHouse();
 
+    void topButtonclicked();
     void bottomButtonclicked() { switchOnPrev(); }
 
     QIcon topButtonIcon() { return QIcon(":/button/pictures/new.png"); }
@@ -28,7 +30,8 @@ public:
 
 private:
 
-    Ui::ContentWidgetWareHouse *ui;
+    Ui::ContentWidgetWareHouse* ui;
+    ContentWidgetInvoiceCreator* m_creatInvoice;
 };
 
 }

@@ -12,7 +12,7 @@ namespace asmt
 class ContentWidgetService;
 class ContentWidgetWareHouse;
 class ContentWidgetSettings;
-class ContentWidgetAccounting;
+class ContentWidgetMasters;
 class ContentWidgetHome : public ContentWidget
 {
     Q_OBJECT
@@ -30,7 +30,7 @@ private slots:
     void serviceClicked();
     void warehouseClicked();
     void settingsClicked();
-    void accountingClicked();
+    void mastersClicked();
 
 private:
 
@@ -38,7 +38,7 @@ private:
     ContentWidgetService*    m_service;
     ContentWidgetWareHouse*  m_warehouse;
     ContentWidgetSettings*   m_settings;
-    ContentWidgetAccounting* m_accounting;
+    ContentWidgetMasters*    m_masters;
 };
 
 }

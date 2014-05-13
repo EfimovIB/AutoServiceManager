@@ -65,9 +65,9 @@
     </spacer>
    </item>
    <item row="2" column="0">
-    <widget class="QPushButton" name="accounting">
+    <widget class="QPushButton" name="masters">
      <property name="text">
-      <string>Учет</string>
+      <string>Мастера</string>
      </property>
     </widget>
    </item>
