@@ -36,6 +36,8 @@ namespace asmt
 
     struct Invoice
     {
+        Invoice() : id(0) {}
+
         unsigned int id;
         QString number;
         QDate date;
@@ -43,12 +45,16 @@ namespace asmt
 
     struct Manufacturer
     {
+        Manufacturer() : id(0) {}
+
         unsigned int id;
         QString name;
     };
 
     struct Spare
     {
+        Spare() : id(0) {}
+
         unsigned int id;
         Manufacturer  manufacturer;
         QString barcode;
@@ -59,6 +65,8 @@ namespace asmt
 
     struct InvoiceSpare
     {
+        InvoiceSpare() : invoice(NULL), price(0), count(0) {}
+
         QSharedPointer<Invoice> invoice;
         Spare spare;
         qreal price;

@@ -2,6 +2,7 @@
 #define CONTENTWIDGETINVOICECREATOR_H
 
 #include <QList>
+#include <QSharedPointer>
 
 #include "contentwidget.h"
 
@@ -13,6 +14,7 @@ namespace Ui
 namespace asmt
 {
 struct InvoiceSpare;
+struct Invoice;
 
 class ContentWidgetInvoiceCreator : public ContentWidget
 {
@@ -24,6 +26,7 @@ public:
     explicit ContentWidgetInvoiceCreator(ContentWidget* _contentWidget);
     ~ContentWidgetInvoiceCreator();
 
+    void topButtonclicked();
     void bottomButtonclicked() { switchOnPrev(); }
 
     QIcon topButtonIcon() { return QIcon(":/button/pictures/accept.png"); }
@@ -35,7 +38,16 @@ private slots:
 
 private:
 
-    QList<InvoiceSpare> m_spares;
+    void init();
+    bool addedInvoiceSpareCorrect() const;
+
+    void clearFields();
+    void updateTreeView();
+
+private:
+
+    QList<QSharedPointer<InvoiceSpare> > m_spares;
+    QSharedPointer<Invoice> m_invoice;
     Ui::ContentWidgetInvoiceCreator* m_ui;
 };
 }

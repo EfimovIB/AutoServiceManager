@@ -66,10 +66,8 @@ int TreeItemModelMasters::rowCount(const QModelIndex &parent) const
 QSharedPointer<Master> TreeItemModelMasters::master(quint32 _id) const
 {
     for (int i = 0; i < m_list.size(); i++)
-    {
         if (m_list[i]->id == _id)
             return m_list[i];
-    }
 
     return QSharedPointer<Master>(NULL);
 }

@@ -63,6 +63,8 @@ text = "create table " + ManufacturerTableName + " ("
 
 execInitTable(text);
 
+// todo add undefine Manufacturer
+
 text = "create table " + SpareTableName + " ("
     "id              SERIAL PRIMARY KEY,"
     "barcode         varchar(80) not null,"
