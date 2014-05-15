@@ -40,7 +40,11 @@ private:
 
     void init();
     bool addedInvoiceSpareCorrect() const;
+    bool addedInvoiceCorrect() const;
 
+    bool insertDataInDatabase();
+
+    void clearForm();
     void clearFields();
     void updateTreeView();
 

@@ -38,9 +38,11 @@ namespace asmt
     {
         Invoice() : id(0) {}
 
-        unsigned int id;
+        unsigned int id; // todo hide id in private
         QString number;
         QDate date;
+
+        bool insertInDatabase();
     };
 
     struct Manufacturer
@@ -49,6 +51,8 @@ namespace asmt
 
         unsigned int id;
         QString name;
+
+        bool insertInDatabase();
     };
 
     struct Spare
@@ -59,6 +63,8 @@ namespace asmt
         Manufacturer  manufacturer;
         QString barcode;
         QString name;
+
+        bool insertInDatabase();
 
         static QList<QSharedPointer<Spare>> spares(const QString& _barcode); // todo
     };
@@ -71,6 +77,8 @@ namespace asmt
         Spare spare;
         qreal price;
         unsigned int count;
+
+        bool insertInDatabase();
     };
 }
 

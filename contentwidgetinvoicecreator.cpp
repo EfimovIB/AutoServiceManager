@@ -1,3 +1,8 @@
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QDebug>
+
 #include "contentwidgetinvoicecreator.h"
 #include "ui_ContentWidgetInvoiceCreator.h"
 #include "datastructs.h"
@@ -26,6 +31,45 @@ void ContentWidgetInvoiceCreator::init()
     m_ui->setupUi(this);
 
     connect(m_ui->add, SIGNAL(clicked()), SLOT(addInvoiceSpare()));
+
+    //---------------- todo firstly check all db code in datastruct? ther is for test
+    m_ui->invoiceNumber->setText("Num nacl");
+
+    QSharedPointer<InvoiceSpare> s(new InvoiceSpare);
+
+    s->invoice = m_invoice;
+    s->spare.barcode = "1111";
+    s->spare.name = "N1";
+    s->spare.manufacturer.name = "Proiz1";
+    s->price = 1.1;
+    s->count = 1;
+
+    m_spares << s;
+
+    s = QSharedPointer<InvoiceSpare>(new InvoiceSpare);
+
+    s->invoice = m_invoice;
+    s->spare.barcode = "2222";
+    s->spare.name = "N2";
+    s->spare.manufacturer.name = "Proiz2";
+    s->price = 2.2;
+    s->count = 2;
+
+    m_spares << s;
+
+    s = QSharedPointer<InvoiceSpare>(new InvoiceSpare);
+
+    s->invoice = m_invoice;
+    s->spare.barcode = "3333";
+    s->spare.name = "N3";
+    s->spare.manufacturer.name = "Proiz3";
+    s->price = 3.3;
+    s->count = 3;
+
+    m_spares << s;
+
+    updateTreeView();
+    //----------------
 }
 
 ContentWidgetInvoiceCreator::~ContentWidgetInvoiceCreator()
@@ -35,7 +79,16 @@ ContentWidgetInvoiceCreator::~ContentWidgetInvoiceCreator()
 
 void ContentWidgetInvoiceCreator::topButtonclicked()
 {
-    // todo firstly 1 check Invoice 2 add all at db
+    if (addedInvoiceCorrect() == false)
+        return;
+
+    m_invoice->number = m_ui->invoiceNumber->text();
+
+    if (insertDataInDatabase())
+    {
+        clearForm();
+        bottomButtonclicked();
+    }
 }
 
 void ContentWidgetInvoiceCreator::addInvoiceSpare()
@@ -65,6 +118,34 @@ bool ContentWidgetInvoiceCreator::addedInvoiceSpareCorrect() const
         && m_ui->name->text().isEmpty() == false
         && m_ui->price->text().isEmpty() == false
             && m_ui->count->text().isEmpty() == false;
+}
+
+bool ContentWidgetInvoiceCreator::addedInvoiceCorrect() const
+{
+    return m_ui->invoiceNumber->text().isEmpty() == false;
+}
+
+bool ContentWidgetInvoiceCreator::insertDataInDatabase()
+{
+    QSqlDatabase::database().transaction();
+
+    foreach ( QSharedPointer<InvoiceSpare> s, m_spares)
+        if (s->insertInDatabase() == false)
+            return false;
+
+    QSqlDatabase::database().commit();
+
+    return true;
+}
+
+void ContentWidgetInvoiceCreator::clearForm()
+{
+    m_spares.clear();
+    m_invoice.clear();
+    m_ui->invoiceNumber->clear();
+    m_ui->dateEdit->setDate(QDate::currentDate());
+    updateTreeView();
+    clearFields();
 }
 
 void ContentWidgetInvoiceCreator::clearFields()
