@@ -32,6 +32,10 @@ public:
     QIcon topButtonIcon() { return QIcon(":/button/pictures/accept.png"); }
     QIcon bottomButtonIcon() { return QIcon(":/button/pictures/reject.png"); }
 
+signals:
+
+    void created();
+
 private slots:
 
     void addInvoiceSpare();

@@ -4,6 +4,8 @@
 #include <QStringList>
 #include <QDate>
 #include <QSharedPointer>
+#include <QPair>
+
 #include "asmapi.h"
 
 namespace asmt
@@ -47,7 +49,7 @@ namespace asmt
 
     struct Manufacturer
     {
-        Manufacturer() : id(0) {}
+        Manufacturer(unsigned int _id = 0, const QString& _name = QString()) : id(_id), name(_name) {}
 
         unsigned int id;
         QString name;
@@ -66,7 +68,9 @@ namespace asmt
 
         bool insertInDatabase();
 
+        static QList<QSharedPointer<Spare>> spares();
         static QList<QSharedPointer<Spare>> spares(const QString& _barcode); // todo
+        static QList<QSharedPointer<QPair<Spare, quint32> > > wareHouse();
     };
 
     struct InvoiceSpare

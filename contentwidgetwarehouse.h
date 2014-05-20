@@ -30,7 +30,11 @@ public:
 
 private:
 
-    Ui::ContentWidgetWareHouse* ui;
+    void updateTreeView();
+
+private:
+
+    Ui::ContentWidgetWareHouse* m_ui;
     ContentWidgetInvoiceCreator* m_creatInvoice;
 };
 

@@ -144,6 +144,7 @@ text = "create table " + UsedSpareTableName + " ("
     "id              SERIAL PRIMARY KEY,"
     "idService       int not null,"
     "idSpare         int not null,"
+    "count           int not null,"
     "comments        text,"
     "date            varchar(100) not null"
     ");";

@@ -87,6 +87,9 @@ void ContentWidgetInvoiceCreator::topButtonclicked()
     if (insertDataInDatabase())
     {
         clearForm();
+
+        emit created();
+
         bottomButtonclicked();
     }
 }

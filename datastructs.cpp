@@ -35,9 +35,9 @@ QStringList Person::phones(unsigned int _idPerson)
     return l;
 }
 
-QList<QSharedPointer<Master>> Master::masters()
+QList<QSharedPointer<Master> > Master::masters()
 {
-    QList<QSharedPointer<Master>> l;
+    QList<QSharedPointer<Master> > l;
 
     QString text = "select "
             " Person.id as idPerson"
@@ -115,7 +115,7 @@ bool Spare::insertInDatabase()
         return false;
     }
 
-    text = "select id from " + SpareTableName + " where barcode='" + barcode + "' and name='" + name + "' and idManufacturer=" + manufacturer.id;
+    text = "select id from " + SpareTableName + " where barcode='" + barcode + "' and name='" + name + "' and idManufacturer=" + QString::number(manufacturer.id);
 
     query.exec(text);
 
@@ -131,11 +131,128 @@ bool Spare::insertInDatabase()
     return true;
 }
 
+QList<QSharedPointer<Spare> > Spare::spares()
+{
+    QList<QSharedPointer<Spare> > l;
+
+    QString text = "select "
+                    + SpareTableName + ".id"
+               ", " + SpareTableName + ".barcode"
+               ", " + SpareTableName + ".name"
+               ", " + SpareTableName + ".idManufacturer"
+               ", " + ManufacturerTableName + ".name "
+           " from " + SpareTableName + ", " + ManufacturerTableName +
+           " where " + ManufacturerTableName + ".id = " + SpareTableName + ".idManufacturer ";
+
+    QSqlQuery query(text);
+
+    if (query.isActive() == false)
+    {
+        qDebug() << "Spares query " << text << endl << query.lastError().databaseText();
+
+        return l;
+    }
+
+    for (;query.next();)
+    {
+        QSharedPointer<Spare> s = QSharedPointer<Spare>(new Spare);
+
+        s->id            = query.value(0).toUInt();
+        s->barcode       = query.value(1).toString();
+        s->name          = query.value(2).toString();
+        s->manufacturer  = Manufacturer(query.value(3).toUInt(), query.value(4).toString());
+
+        l << s;
+    }
+
+    return l;
+}
+
 QList<QSharedPointer<Spare> > Spare::spares(const QString& _barcode)
 {
-    QList<QSharedPointer<Spare>> l;
+    QList<QSharedPointer<Spare> > l;
 
-    // todo
+    QString text = "select "
+                    + SpareTableName + ".id"
+               ", " + SpareTableName + ".barcode"
+               ", " + SpareTableName + ".name"
+               ", " + SpareTableName + ".idManufacturer"
+               ", " + ManufacturerTableName + ".name "
+           " from " + SpareTableName + ", " + ManufacturerTableName +
+           " where " + ManufacturerTableName + ".id = " + SpareTableName + ".idManufacturer and " + SpareTableName + ".barcode=" + _barcode;
+
+    QSqlQuery query(text);
+
+    if (query.isActive() == false)
+    {
+        qDebug() << "Spares query " << text << endl << query.lastError().databaseText();
+
+        return l;
+    }
+
+    for (;query.next();)
+    {
+        QSharedPointer<Spare> s = QSharedPointer<Spare>(new Spare);
+
+        s->id            = query.value(0).toUInt();
+        s->barcode       = query.value(1).toString();
+        s->name          = query.value(2).toString();
+        s->manufacturer  = Manufacturer(query.value(3).toUInt(), query.value(4).toString());
+
+        l << s;
+    }
+
+    return l;
+}
+
+QList<QSharedPointer<QPair<Spare, quint32> > > Spare::wareHouse()
+{
+    QList<QSharedPointer<QPair<Spare, quint32> > > l;
+
+    QString text =
+        "(select "
+        + InvoiceSpareTableName + ".idSpare"
+        ", (" + InvoiceSpareTableName + ".count - " + UsedSpareTableName + ".count) as count "
+        "from " + UsedSpareTableName + ", " + InvoiceSpareTableName +
+        " where " + UsedSpareTableName + ".idSpare = " + InvoiceSpareTableName + ".idSpare )"
+
+        " union "
+
+        "(select "
+        + InvoiceSpareTableName + ".idSpare"
+        "," + InvoiceSpareTableName + ".count as count "
+        "from " + UsedSpareTableName + ", " + InvoiceSpareTableName +
+        " where " + UsedSpareTableName + ".idSpare != " + InvoiceSpareTableName + ".idSpare)";
+
+    QSqlQuery query(text);
+
+    if (query.isActive() == false)
+    {
+        qDebug() << "Spare query " << text << endl << query.lastError().databaseText();
+
+        return l;
+    }
+
+    QMap<unsigned int, unsigned int> countMap;
+
+    while (query.next())
+    {
+        countMap.insert(query.value(0).toUInt(), query.value(1).toUInt());
+    }
+
+    QList<QSharedPointer<Spare> > lSpare = Spare::spares();
+
+    foreach(QSharedPointer<Spare> s, lSpare)
+    {
+        QMap<unsigned int, unsigned int>::iterator it = countMap.find(s->id);
+
+        if (it==countMap.end())
+            qDebug() << "Spare query cannot find count of Spare.id " << s->id;
+        else
+        {
+            l << QSharedPointer<QPair<Spare, quint32> >(new QPair<Spare, quint32>(*s, it.value()));
+        }
+    }
 
     return l;
 }
@@ -263,7 +380,7 @@ bool InvoiceSpare::insertInDatabase()
     else
     {
         text = "insert into " + InvoiceSpareTableName + "(idInvoice, idSpare, price, count) values("
-                                ", " + QString::number(invoice->id) +
+                                     + QString::number(invoice->id) +
                                 ", " + QString::number(spare.id) +
                                 ", " + QString::number(price) +
                                 ", " + QString::number(count) + ")";
