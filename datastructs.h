@@ -20,7 +20,8 @@ namespace asmt
         QString patronymic;
         QStringList phone;
 
-        static QList<Person> persons();
+        static QList<QSharedPointer<Person> > persons();
+        static QList<QSharedPointer<Person> > persons(const QString& _phone);
         static QStringList phones(unsigned int _idPerson);
     };
 
@@ -59,18 +60,18 @@ namespace asmt
 
     struct Spare
     {
-        Spare() : id(0) {}
+        Spare() : id(0), count(0) {}
 
         unsigned int id;
         Manufacturer  manufacturer;
         QString barcode;
         QString name;
+        unsigned int count;
 
         bool insertInDatabase();
 
         static QList<QSharedPointer<Spare>> spares();
         static QList<QSharedPointer<Spare>> spares(const QString& _barcode); // todo
-        static QList<QSharedPointer<QPair<Spare, quint32> > > wareHouse();
     };
 
     struct InvoiceSpare
@@ -83,6 +84,33 @@ namespace asmt
         unsigned int count;
 
         bool insertInDatabase();
+    };
+
+    struct AgregateType
+    {
+        AgregateType(const QString& _name = QString()) : id(0), name(_name) {}
+
+        unsigned int id;
+        QString name;
+    };
+
+    struct Car
+    {
+        Car(const QString& _name = QString()) : id(0), name(_name) {}
+
+        unsigned int id;
+        QString name;
+    };
+
+    struct Agregate
+    {
+        Agregate() : id(0), number(0) {}
+
+        unsigned int id;
+        unsigned int number;
+        QString name;
+        AgregateType type;
+        Car car;
     };
 }
 

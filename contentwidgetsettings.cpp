@@ -40,8 +40,9 @@ void ContentWidgetSettings::init()
 
     m_ui->state->setText(m_con->opened() ? "Open" : "Close");
 
-    connect(m_ui->btnCreateDatabase, SIGNAL(pressed()), SLOT(initDatabase()));
-    connect(m_ui->btnDropDatabase,   SIGNAL(pressed()), SLOT(dropDatabase()));
+    connect(m_ui->btnCreateDatabase,  SIGNAL(pressed()), SLOT(initDatabase()));
+    connect(m_ui->btnDropDatabase,    SIGNAL(pressed()), SLOT(dropDatabase()));
+    connect(m_ui->btnRecalcWareHouse, SIGNAL(pressed()), SLOT(recalcWareHouse()));
 
     connect(m_ui->connect, SIGNAL(pressed()), m_con, SLOT(connect()));
 
@@ -64,6 +65,11 @@ void ContentWidgetSettings::initDatabase() const
 void ContentWidgetSettings::dropDatabase() const
 {
     DatabaseManager::dropTables();
+}
+
+void ContentWidgetSettings::recalcWareHouse() const
+{
+    DatabaseManager::recalcSpareCount();
 }
 
 void ContentWidgetSettings::connectStateChanged(bool _open)

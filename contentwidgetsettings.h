@@ -35,6 +35,7 @@ private slots:
 
     void initDatabase() const;
     void dropDatabase() const;
+    void recalcWareHouse() const;
 
     void connectStateChanged(bool);
 

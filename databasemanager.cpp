@@ -63,13 +63,12 @@ text = "create table " + ManufacturerTableName + " ("
 
 execInitTable(text);
 
-// todo add undefine Manufacturer
-
 text = "create table " + SpareTableName + " ("
     "id              SERIAL PRIMARY KEY,"
     "barcode         varchar(80) not null,"
     "name            varchar(100) not null,"
-    "idManufacturer  int not null"
+    "idManufacturer  int not null,"
+    "count           int default 0"
     ");";
 
 execInitTable(text);
@@ -168,6 +167,36 @@ void DatabaseManager::dropTables()
     dropTable(ServiceStateTableName);
     dropTable(ServiceTableName);
     dropTable(UsedSpareTableName);
+}
+
+bool DatabaseManager::recalcSpareCount()
+{
+    QSqlDatabase::database().transaction();
+
+    QString text = "update " + SpareTableName + " "
+            "set count="
+            "(select sum(count) from " + InvoiceSpareTableName + " where " + SpareTableName + ".id=" + InvoiceSpareTableName + ".idSpare) "
+            "from " + InvoiceSpareTableName + " where " + SpareTableName + ".id=" + InvoiceSpareTableName + ".idSpare;"
+            "update " + SpareTableName + " set count=" + SpareTableName + ".count-"
+            "(select sum(count) from " + UsedSpareTableName + " where " + SpareTableName + ".id=" + UsedSpareTableName + ".idSpare) "
+            "from " + UsedSpareTableName + " where " + SpareTableName + ".id=" + UsedSpareTableName + ".idSpare;";
+
+    QSqlQuery query(text);
+
+    qDebug() << text;
+
+    if (query.isActive() == false)
+    {
+        qDebug() << "DatabaseManager query " << text << endl << query.lastError().databaseText();
+
+        QSqlDatabase::database().rollback();
+
+        return false;
+    }
+
+    QSqlDatabase::database().commit();
+
+    return true;
 }
 
 void DatabaseManager::dropTable(const QString& _name)

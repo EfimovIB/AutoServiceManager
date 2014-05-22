@@ -28,7 +28,8 @@ HEADERS +=  asmapi.h \
     treeitemmodelmasters.h \
     contentwidgetinvoicecreator.h \
     treeitemmodelinvoicespare.h \
-    treeitemmodelwarehouse.h
+    treeitemmodelwarehouse.h \
+    contentwidgetservicecreator.h
 
 SOURCES += main.cpp \
            mainwindow.cpp \
@@ -59,7 +60,8 @@ SOURCES += main.cpp \
     treeitemmodelmasters.cpp \
     contentwidgetinvoicecreator.cpp \
     treeitemmodelinvoicespare.cpp \
-    treeitemmodelwarehouse.cpp
+    treeitemmodelwarehouse.cpp \
+    contentwidgetservicecreator.cpp
 
 FORMS += mainwindow.ui \
          warehousewidget.ui \
@@ -76,6 +78,7 @@ FORMS += mainwindow.ui \
     ContentWidgetWareHouse.ui \
     ContentWidgetMasters.ui \
     ContentWidgetMastersCreator.ui \
-    ContentWidgetInvoiceCreator.ui
+    ContentWidgetInvoiceCreator.ui \
+    contentwidgetservicecreator.ui
 
 RESOURCES += asm.qrc

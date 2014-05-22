@@ -26,7 +26,7 @@ public:
 
 private:
 
-    QList<QSharedPointer<QPair<Spare, quint32> > > m_list;
+    QList<QSharedPointer<Spare> > m_list;
 };
 
 }

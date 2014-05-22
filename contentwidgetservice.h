@@ -10,6 +10,7 @@ namespace Ui
 
 namespace asmt
 {
+class ContentWidgetServiceCreator;
 
 class ContentWidgetService : public ContentWidget
 {
@@ -21,13 +22,19 @@ public:
 
     ~ContentWidgetService();
 
+    void topButtonclicked();
     void bottomButtonclicked() { switchOnPrev(); }
 
     QIcon topButtonIcon() { return QIcon(":/button/pictures/new.png"); }
     QIcon bottomButtonIcon() { return QIcon(":/button/pictures/home.png"); }
 
+private slots:
+
+    void updateTreeView();
+
 private:
     Ui::ContentWidgetService *ui;
+    ContentWidgetServiceCreator* m_creatInvoice;
 };
 
 }

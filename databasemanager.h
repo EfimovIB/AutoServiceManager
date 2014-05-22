@@ -11,6 +11,7 @@ public:
 
     static void initTables();
     static void dropTables();
+    static bool recalcSpareCount();
 
 private:
     static void dropTable(const QString& _name);

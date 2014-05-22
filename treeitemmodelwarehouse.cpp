@@ -7,7 +7,7 @@ namespace asmt
 TreeItemModelWareHouse::TreeItemModelWareHouse(QObject* _parent)
   : QAbstractItemModel(_parent)
 {
-    m_list = Spare::wareHouse();
+    m_list = Spare::spares();
 }
 
 int TreeItemModelWareHouse::columnCount(const QModelIndex& parent) const
@@ -23,17 +23,17 @@ QVariant TreeItemModelWareHouse::data(const QModelIndex& index, int role) const
      if (role != Qt::DisplayRole)
          return QVariant();
 
-     QSharedPointer<QPair<Spare, quint32> > s = m_list[index.internalId()];
+     QSharedPointer<Spare> s = m_list[index.internalId()];
 
      if (!s)
          return QVariant();
 
      switch (index.column())
      {
-        case 0: return s->first.barcode;
-        case 1: return s->first.name;
-        case 2: return s->first.manufacturer.name;
-        case 3: return s->second;
+        case 0: return s->barcode;
+        case 1: return s->name;
+        case 2: return s->manufacturer.name;
+        case 3: return s->count;
      }
 
      return QVariant();

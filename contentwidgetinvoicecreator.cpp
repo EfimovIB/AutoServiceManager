@@ -32,7 +32,6 @@ void ContentWidgetInvoiceCreator::init()
 
     connect(m_ui->add, SIGNAL(clicked()), SLOT(addInvoiceSpare()));
 
-    //---------------- todo firstly check all db code in datastruct? ther is for test
     m_ui->invoiceNumber->setText("Num nacl");
 
     QSharedPointer<InvoiceSpare> s(new InvoiceSpare);
