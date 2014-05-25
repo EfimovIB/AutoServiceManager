@@ -140,7 +140,7 @@ void WarehouseWidget::itemChanged(QTableWidgetItem* _item)
 void WarehouseWidget::cellDoubleClicked(int _row, int _column)
 {
     if (_column == ManufacturerColumn)
-        if (Manufacturer* m = ManufacturerDialog::getManufacturer(this))
+        if (Manufacturer_old* m = ManufacturerDialog::getManufacturer(this))
         {
             Goods* g = m_goods[_row];
             g->setManufacturer(m->id());

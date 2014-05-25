@@ -15,9 +15,9 @@ NewServiceDialog::NewServiceDialog(QWidget* _parent)
 {
     m_ui->setupUi(this);
     m_ui->date->setDate(QDate::currentDate());
-    m_masters = Person::persons(Person::Master);
+    m_masters = Person_old::persons(Person_old::Master);
     m_ui->masters->addItem(tr("Мастер"));
-    foreach(Person* p, m_masters)
+    foreach(Person_old* p, m_masters)
         m_ui->masters->addItem(p->fullName());
 }
 
@@ -31,7 +31,7 @@ const QDate& NewServiceDialog::date() const
     return m_ui->date->date();
 }
 
-Person* NewServiceDialog::master() const
+Person_old* NewServiceDialog::master() const
 {
     int num = m_ui->masters->currentIndex();
 
@@ -41,7 +41,7 @@ Person* NewServiceDialog::master() const
     return m_masters[num - 1];
 }
 
-Aggregate* NewServiceDialog::createAggregate() const
+Aggregate_old* NewServiceDialog::createAggregate() const
 {
     QString name = m_ui->name->text();
     QString type = m_ui->type->text();
@@ -51,7 +51,7 @@ Aggregate* NewServiceDialog::createAggregate() const
     if (name.isEmpty() && type.isEmpty() && car.isEmpty() && number.isEmpty())
         return NULL;
 
-    return new Aggregate(name, type, car, number);
+    return new Aggregate_old(name, type, car, number);
 }
 
 QString NewServiceDialog::comment() const
@@ -64,14 +64,14 @@ int NewServiceDialog::box() const
     return m_ui->box->text().toInt();
 }
 
-Service* NewServiceDialog::createNewService(Person* _client, QWidget* _parent)
+Service_old* NewServiceDialog::createNewService(Person_old* _client, QWidget* _parent)
 {
-    Service* s(NULL);
+    Service_old* s(NULL);
     NewServiceDialog d(_parent);
 
     if (d.exec() == QDialog::Accepted)
     {
-        s = new Service(_client);
+        s = new Service_old(_client);
         s->setStartDate(d.date());
         s->setClientComments(d.comment());
         s->setMaster(d.master());

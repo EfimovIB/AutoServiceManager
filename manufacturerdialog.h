@@ -12,7 +12,7 @@ namespace Ui
 
 namespace asmt
 {
-class Manufacturer;
+class Manufacturer_old;
 class ManufacturerDialog : public QDialog
 {
     Q_OBJECT
@@ -20,9 +20,9 @@ public:
     ManufacturerDialog(QWidget* _parent = 0, Qt::WindowFlags _f = 0);
     ~ManufacturerDialog();
 
-    static Manufacturer* getManufacturer(QWidget* _parent = 0);
+    static Manufacturer_old* getManufacturer(QWidget* _parent = 0);
 
-    Manufacturer* choosedManufacturer() const;
+    Manufacturer_old* choosedManufacturer() const;
 
 private:
     void fillList();

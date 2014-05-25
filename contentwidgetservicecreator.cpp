@@ -1,3 +1,6 @@
+#include <QSqlDatabase>
+#include <QDebug>
+
 #include "contentwidgetservicecreator.h"
 #include "ui_contentwidgetservicecreator.h"
 #include "datastructs.h"
@@ -17,6 +20,22 @@ ContentWidgetServiceCreator::ContentWidgetServiceCreator(ContentWidget* _content
   , m_ui(new Ui::ContentWidgetServiceCreator)
 {
   m_ui->setupUi(this);
+
+  Aggregate a;
+
+  // -------------------------
+
+  m_ui->name->setText(tr("К_И_1"));
+  m_ui->surname->setText(tr("К_Ф_1"));
+  m_ui->patronymic->setText(tr("К_О_1"));
+  m_ui->telephone->setText(tr("К_T_1"));
+
+  m_ui->agregateName->setText(tr("Стартер"));
+  m_ui->agregateType->setText(tr("Механический"));
+  m_ui->agregateNumber->setText("123456789");
+  m_ui->car->setText(tr("Машина"));
+  m_ui->boxNumber->setText("5");
+  m_ui->comments->setPlainText(tr("Не работает"));
 }
 
 ContentWidgetServiceCreator::~ContentWidgetServiceCreator()
@@ -28,20 +47,38 @@ void ContentWidgetServiceCreator::topButtonclicked()
 {
     // if () // todo add checking
 
-    // todo firstly Service Creator
+    QSqlDatabase::database().transaction();
 
-    QSharedPointer<Person> p(new Person); // todo search Person by phone number
+    Person p; // todo search Person by phone number
 
-    p->surname = m_ui->surname->text();
-    p->name = m_ui->name->text();
-    p->patronymic = m_ui->patronymic->text();
-    p->phone += m_ui->telephone->text();
+    p.surname = m_ui->surname->text();
+    p.name = m_ui->name->text();
+    p.patronymic = m_ui->patronymic->text();
+    p.phone += m_ui->telephone->text();
 
-    QSharedPointer<Agregate> a(new Agregate);
+    if (p.insertInDatabase() == false)
+    {
+        QSqlDatabase::database().rollback();
 
-    a->name = m_ui->agregateName->text();
-    a->number = m_ui->agregateNumber->text().toUInt();
-    a->type = AgregateType(m_ui->agregateName->text());
+        return;
+    }
+
+//    Aggregate a;
+
+//    a.name = m_ui->agregateName->text();
+//    a.number = m_ui->agregateNumber->text();
+//    a.type = AggregateType(m_ui->agregateName->text());
+//    a.car = Car(m_ui->car->text());
+
+//    if (a.insertInDatabase() == false)
+    {
+        QSqlDatabase::database().rollback();
+
+        return;
+    }
+
+    // todo firstly : create Service
+    QSqlDatabase::database().commit();
 
     emit created();
     // todo add clearing and switch

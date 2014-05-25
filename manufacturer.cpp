@@ -8,27 +8,27 @@
 
 namespace asmt
 {
-static QList<Manufacturer*> Manufacturers;
+static QList<Manufacturer_old*> Manufacturers;
 static bool WasDownload = false;
 
-Manufacturer::Manufacturer()
+Manufacturer_old::Manufacturer_old()
   : QObject()
   , m_id(-1)
 {}
 
-int Manufacturer::id() const
+int Manufacturer_old::id() const
 {
     return m_id;
 }
 
-const QString& Manufacturer::name() const
+const QString& Manufacturer_old::name() const
 {
     return m_name;
 }
 
-Manufacturer* Manufacturer::addManufacturer(const QString& _name)
+Manufacturer_old* Manufacturer_old::addManufacturer(const QString& _name)
 {
-    Manufacturer* m = new Manufacturer;
+    Manufacturer_old* m = new Manufacturer_old;
     m->m_name = _name;
     m->m_id = biggestExistId() + 1;
 
@@ -40,14 +40,14 @@ Manufacturer* Manufacturer::addManufacturer(const QString& _name)
     return m;
 }
 
-const QList<Manufacturer*> Manufacturer::manufacturers()
+const QList<Manufacturer_old*> Manufacturer_old::manufacturers()
 {
     checkListManufacturer();
 
     return Manufacturers;
 }
 
-const Manufacturer* Manufacturer::manufacturer(int _id)
+const Manufacturer_old* Manufacturer_old::manufacturer(int _id)
 {
     checkListManufacturer();
 
@@ -58,7 +58,7 @@ const Manufacturer* Manufacturer::manufacturer(int _id)
     return NULL;
 }
 
-bool Manufacturer::exist(int _id)
+bool Manufacturer_old::exist(int _id)
 {
     checkListManufacturer();
 
@@ -69,7 +69,7 @@ bool Manufacturer::exist(int _id)
     return false;
 }
 
-void Manufacturer::checkListManufacturer()
+void Manufacturer_old::checkListManufacturer()
 {
     if (WasDownload)
         return;
@@ -78,7 +78,7 @@ void Manufacturer::checkListManufacturer()
     WasDownload = true;
 }
 
-void Manufacturer::downloadListManufacturer()
+void Manufacturer_old::downloadListManufacturer()
 {
     QString text = "select id, name from " + ManufacturerTableName;
     QSqlQuery query(text);
@@ -87,14 +87,14 @@ void Manufacturer::downloadListManufacturer()
 
     for (;query.next();)
     {
-        Manufacturer* s = new Manufacturer;
+        Manufacturer_old* s = new Manufacturer_old;
         s->m_id = query.value(0).toInt();
         s->m_name = query.value(1).toString();
         Manufacturers << s;
     }
 }
 
-int Manufacturer::biggestExistId()
+int Manufacturer_old::biggestExistId()
 {
     checkListManufacturer();
 
@@ -110,7 +110,7 @@ int Manufacturer::biggestExistId()
     return biggest;
 }
 
-void Manufacturer::addInDatabase()
+void Manufacturer_old::addInDatabase()
 {
     QString text = "insert into " + ManufacturerTableName + "   values(" + QString::number(m_id) + ", '" + m_name + "')";
     QSqlQuery query(text);

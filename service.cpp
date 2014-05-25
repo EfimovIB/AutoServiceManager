@@ -12,7 +12,7 @@ namespace asmt
 {
 static const QString DateFormat("dd.MM.yyyy");
 
-Service::Service(const Person* _client)
+Service_old::Service_old(const Person_old* _client)
   : m_id(QUuid::createUuid().toString())
   , m_client(_client)
   , m_master(NULL)
@@ -23,65 +23,65 @@ Service::Service(const Person* _client)
     addInDatabase();
 }
 
-Service::~Service()
+Service_old::~Service_old()
 {
     delete m_aggregate;
 }
 
-Service::Service()
+Service_old::Service_old()
     : m_master(NULL),
       m_aggregate(NULL)
 {}
 
-const QString& Service::id() const
+const QString& Service_old::id() const
 {
     return m_id;
 }
 
-const QString& Service::masterComments() const
+const QString& Service_old::masterComments() const
 {
     return m_masterComments;
 }
 
-const QString& Service::clientComments() const
+const QString& Service_old::clientComments() const
 {
     return m_clientComments;
 }
 
-void Service::setClientComments(const QString& _comment)
+void Service_old::setClientComments(const QString& _comment)
 {
     m_clientComments = _comment;
     updateClientCommentsInDatabase();
 }
 
-const Person* Service::client() const
+const Person_old* Service_old::client() const
 {
     return m_client;
 }
 
-const Person* Service::master() const
+const Person_old* Service_old::master() const
 {
     return m_master;
 }
 
-void Service::setMaster(const Person* _master)
+void Service_old::setMaster(const Person_old* _master)
 {
     m_master = _master;
     updateMasterInDatabase();
 }
 
-const QDate& Service::startDate() const
+const QDate& Service_old::startDate() const
 {
     return m_startDate;
 }
 
-void Service::setStartDate(const QDate& _date)
+void Service_old::setStartDate(const QDate& _date)
 {
     m_startDate = _date;
     updateStartDateInDatabase();
 }
 
-QString Service::startDateText() const
+QString Service_old::startDateText() const
 {
     if (m_startDate.isValid())
         return m_startDate.toString(DateFormat);
@@ -89,12 +89,12 @@ QString Service::startDateText() const
     return QString();
 }
 
-const QDate& Service::endDate() const
+const QDate& Service_old::endDate() const
 {
     return m_endDate;
 }
 
-QString Service::endDateText() const
+QString Service_old::endDateText() const
 {
     if (m_endDate.isValid())
         return m_endDate.toString(DateFormat);
@@ -102,11 +102,11 @@ QString Service::endDateText() const
     return QString();
 }
 
-QList<Service> Service::listByTextQueryCondition(const QString& _condition)
+QList<Service_old> Service_old::listByTextQueryCondition(const QString& _condition)
 {
     QString text = "select id, clientId, masterId, aggregateId, boxNumber, changed, clientComments, masterComments, startDate, endDate, price from " + ServiceTableName + " where " + _condition;
     QSqlQuery query(text);
-    QList<Service> list;
+    QList<Service_old> list;
 
     if (query.isActive() == false)
     {
@@ -116,11 +116,11 @@ QList<Service> Service::listByTextQueryCondition(const QString& _condition)
 
     for (;query.next();)
     {
-        Service s;
+        Service_old s;
         s.m_id = query.value(0).toString();
-        s.m_client = Person::person(query.value(1).toString());
-        s.m_master = Person::person(query.value(2).toString());
-        s.m_aggregate = Aggregate::aggregate(query.value(3).toInt());
+        s.m_client = Person_old::person(query.value(1).toString());
+        s.m_master = Person_old::person(query.value(2).toString());
+        s.m_aggregate = Aggregate_old::aggregate(query.value(3).toInt());
         s.m_boxNumber = query.value(4).toInt();
         s.m_changed = query.value(5).toString();
         s.m_clientComments = query.value(6).toString();
@@ -134,58 +134,58 @@ QList<Service> Service::listByTextQueryCondition(const QString& _condition)
     return list;
 }
 
-QList<Service> Service::services(const Person* _client)
+QList<Service_old> Service_old::services(const Person_old* _client)
 {
     QString condition = "client_id = '" + _client->id() + "'";
 
     return listByTextQueryCondition(condition);
 }
 
-Aggregate *Service::aggregate() const
+Aggregate_old *Service_old::aggregate() const
 {
     return m_aggregate;
 }
 
-void Service::setAggregate(Aggregate *_aggregate)
+void Service_old::setAggregate(Aggregate_old *_aggregate)
 {
     delete m_aggregate;
     m_aggregate = _aggregate;
     updateAggregateInDatabase();
 }
 
-int Service::boxNumber() const
+int Service_old::boxNumber() const
 {
     return m_boxNumber;
 }
 
-void Service::setBoxNumber(int _boxNumber)
+void Service_old::setBoxNumber(int _boxNumber)
 {
     m_boxNumber = _boxNumber;
     updateBoxNumberInDatabase();
 }
 
-QList<Service> Service::servicesInProgress()
+QList<Service_old> Service_old::servicesInProgress()
 {
     QString condition = "endDate = ''";
 
     return listByTextQueryCondition(condition);
 }
 
-QList<Service> Service::servicesByStartDate(const QDate& _date)
+QList<Service_old> Service_old::servicesByStartDate(const QDate& _date)
 {
     QString condition = "startDate = '" + _date.toString(DateFormat) + "'";
 
     return listByTextQueryCondition(condition);
 }
 
-QList<Service> Service::servicesByEndDate(const QDate& _date)
+QList<Service_old> Service_old::servicesByEndDate(const QDate& _date)
 {
     QString condition = "endDate = '" + _date.toString(DateFormat) + "'";
 
     return listByTextQueryCondition(condition);
 }
 
-void Service::addInDatabase()
+void Service_old::addInDatabase()
 {
     QString clientId = m_client ? m_client->id() : QString();
     QString masterId = m_master ? m_master->id() : QString();
@@ -212,7 +212,7 @@ void Service::addInDatabase()
         qDebug() << "Client addInDatabase query" << text << endl << query.lastError().databaseText();
 }
 
-void Service::updateClientCommentsInDatabase()
+void Service_old::updateClientCommentsInDatabase()
 {
     QString text = "update " + ServiceTableName + "   set clientComments = '" + m_clientComments + "' where id = '" + m_id +"'";
     QSqlQuery query(text);
@@ -221,7 +221,7 @@ void Service::updateClientCommentsInDatabase()
         qDebug() << "Service setClientComments query" << text << endl << query.lastError().databaseText();
 }
 
-void Service::updateStartDateInDatabase()
+void Service_old::updateStartDateInDatabase()
 {
     QString text = "update " + ServiceTableName + "   set startDate = '" + startDateText() + "' where id = '" + m_id +"'";
     QSqlQuery query(text);
@@ -230,7 +230,7 @@ void Service::updateStartDateInDatabase()
         qDebug() << "Service setStartDate query" << text << endl << query.lastError().databaseText();
 }
 
-void Service::updateMasterInDatabase()
+void Service_old::updateMasterInDatabase()
 {
     QString masterId;
     if (m_master)
@@ -243,7 +243,7 @@ void Service::updateMasterInDatabase()
         qDebug() << "Service setMaster query" << text << endl << query.lastError().databaseText();
 }
 
-void Service::updateAggregateInDatabase()
+void Service_old::updateAggregateInDatabase()
 {
     int aggregateId = m_aggregate ? m_aggregate->id() : -1;
 
@@ -254,7 +254,7 @@ void Service::updateAggregateInDatabase()
         qDebug() << "Service setAggregate query" << text << endl << query.lastError().databaseText();
 }
 
-void Service::updateBoxNumberInDatabase()
+void Service_old::updateBoxNumberInDatabase()
 {
     QString text = "update " + ServiceTableName + "   set boxNumber = " + QString::number(m_boxNumber) + " where id = '" + m_id +"'";
     QSqlQuery query(text);

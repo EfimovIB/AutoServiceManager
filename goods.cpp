@@ -46,7 +46,7 @@ int Goods::count() const
     return m_count;
 }
 
-const Manufacturer * Goods::manufacturer() const
+const Manufacturer_old * Goods::manufacturer() const
 {
     return m_manufacturer;
 }
@@ -61,7 +61,7 @@ QString Goods::manufacturerName() const
 
 void Goods::setManufacturer(int _id)
 {
-    if (const Manufacturer* m = Manufacturer::manufacturer(_id))
+    if (const Manufacturer_old* m = Manufacturer_old::manufacturer(_id))
         m_manufacturer = m;
     else
         m_manufacturer = NULL;
@@ -90,7 +90,7 @@ QList<Goods*> Goods::goods()
         g->m_barcode = barcode;
         g->m_name = name;
         g->m_count = count;
-        g->m_manufacturer = Manufacturer::manufacturer(manuf);
+        g->m_manufacturer = Manufacturer_old::manufacturer(manuf);
         list << g;
     }
 

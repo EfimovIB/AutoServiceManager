@@ -10,7 +10,7 @@ namespace Ui
 
 namespace asmt
 {
-class Service;
+class Service_old;
 class ServiceWidget : public QWidget
 {
     Q_OBJECT
@@ -32,7 +32,7 @@ private:
 
 private:
 
-    QList<Service> m_services;
+    QList<Service_old> m_services;
     Ui::ServiceWidget* m_ui;
 };
 }

@@ -7,6 +7,102 @@
 namespace asmt
 {
 
+bool Person::insertInDatabase()
+{
+    QString text;
+
+    text = "select idPerson from " + PhoneTableName + " where "; // todo phones could be the same. We shell have had ways to change the owner of phone number.
+
+    for (int i = 0; i < phone.size(); i++) // todo every time before inserting shell check phone number must be!
+    {
+        text += "phone='" + phone[i] + "'";
+
+        if (i < phone.size()-1)
+            text += " or ";
+    }
+
+    // todo the phone numbers should has got one format
+
+    QSqlQuery query(text);
+
+    if (query.isActive() == false)
+    {
+        qDebug() << "Person query " << text << endl << query.lastError().databaseText();
+
+        return false;
+    }
+
+    if (query.next()) // todo name, surname, patronymic should have one format
+    {
+        unsigned int idPerson = query.value(0).toUInt();
+
+        text = "select name, surname, patronymic from " + PersonTableName + " where id=" + QString::number(idPerson);
+
+        query.exec(text);
+
+        if (query.isActive() == false || query.next() == false)
+        {
+            qDebug() << "Person query " << text << endl << query.lastError().databaseText();
+
+            return false;
+        }
+
+        QString nameDb = query.value(0).toString();
+        QString surnameDb = query.value(1).toString();
+        QString patronymicDb = query.value(2).toString();
+
+        bool res = true;
+
+        // todo if one of db values is empty then update it
+
+        if (name != nameDb && !name.isEmpty() && !nameDb.isEmpty())
+            return false;
+
+        if (surname != surnameDb && !surname.isEmpty() && !surnameDb.isEmpty())
+            return false;
+
+        if (patronymic != patronymicDb && !patronymic.isEmpty() && !patronymicDb.isEmpty())
+            return false;
+
+        id = idPerson;
+
+        return true;
+    }
+
+    text = "insert into " + PersonTableName + "(name, surname, patronymic) values("
+                      "'" + name + "'"
+                    ", '" + surname + "'"
+                    ", '" + patronymic + "') returning id";
+
+    query.exec(text);
+
+    if (query.isActive() == false || query.next() == false)
+    {
+        qDebug() << "Person insertDataInDatabase query " << text << endl << query.lastError().databaseText();
+
+        return false;
+    }
+
+    id = query.value(0).toUInt();
+
+    text = "insert into " + PhoneTableName + " values("
+                      "'" + phone.first() + "'" // todo phones coount could be more than one
+                      ", " + QString::number(id) + ")";
+
+// todo check all db request on 'select max(id) from'/ There is could be error. Better way is 'returning id'
+
+    query.exec(text);
+
+    if (query.isActive() == false)
+    {
+        qDebug() << "Person insertDataInDatabase query " << text << endl << query.lastError().databaseText();
+
+        return false;
+    }
+
+    return true;
+}
+
 QList<QSharedPointer<Person> > Person::persons()
 {
     return QList<QSharedPointer<Person> >(); // todo
@@ -355,6 +451,134 @@ bool InvoiceSpare::insertInDatabase()
 
         return false;
     }
+
+    return true;
+}
+
+bool AggregateType::insertInDatabase()
+{
+    if (id != 0)
+        return true;
+
+    QString text = "select id from " + AggregateTypeTableName + " where name='" + name + "'";
+
+    QSqlQuery query(text);
+
+    if (query.isActive() == false)
+    {
+        qDebug() << "AggregateType query " << text << endl << query.lastError().databaseText();
+
+        return false;
+    }
+
+    if (query.next())
+    {
+        id = query.value(0).toUInt();
+
+        return true;
+    }
+
+    text = "insert into " + AggregateTypeTableName + "(name) values('" + name + "') returning id";
+
+    query.exec(text);
+
+    if (query.isActive() == false || query.next() == false)
+    {
+        qDebug() << "AggregateType query " << text << endl << query.lastError().databaseText();
+
+        return false;
+    }
+
+    id = query.value(0).toUInt();
+
+    return true;
+}
+
+bool Car::insertInDatabase()
+{
+    if (id != 0)
+        return true;
+
+    QString text = "select id from " + CarTableName + " where name='" + name + "'";
+
+    QSqlQuery query(text);
+
+    if (query.isActive() == false)
+    {
+        qDebug() << "Car query " << text << endl << query.lastError().databaseText();
+
+        return false;
+    }
+
+    if (query.next())
+    {
+        id = query.value(0).toUInt();
+
+        return true;
+    }
+
+    text = "insert into " + AggregateTypeTableName + "(name) values('" + name + "') returning id";
+
+    query.exec(text);
+
+    if (query.isActive() == false || query.next() == false)
+    {
+        qDebug() << "Car query " << text << endl << query.lastError().databaseText();
+
+        return false;
+    }
+
+    id = query.value(0).toUInt();
+
+    return true;
+}
+
+bool Aggregate::insertInDatabase()
+{
+    if (type.insertInDatabase() == false || car.insertInDatabase() == false)
+        return false;
+
+    if (id != 0)
+        return true;
+
+    QString text = "select id from " + AggregateTableName + " where "
+                          + "name='" + name + "'" +
+                   + " and number='" + number + "'" +
+           + " and idAggregateType=" + QString::number(type.id) +
+                     + " and idCar=" + QString::number(car.id);
+
+    QSqlQuery query(text);
+
+    if (query.isActive() == false)
+    {
+        qDebug() << "Agregate query " << text << endl << query.lastError().databaseText();
+
+        return false;
+    }
+
+    if (query.next())
+    {
+        id = query.value(0).toUInt();
+
+        return true;
+    }
+
+    text = "insert into " + AggregateTableName + "(name, number, idAggregateType, idCar) values("
+                             "'" + name + "'" +
+                           ", '" + number + "'" +
+                            ", " + QString::number(type.id) +
+                            ", " + QString::number(car.id) + ") returning id";
+
+    query.exec(text);
+
+    if (query.isActive() == false || query.next() == false)
+    {
+        qDebug() << "Agregate query " << text << endl << query.lastError().databaseText();
+
+        return false;
+    }
+
+    id = query.value(0).toUInt();
 
     return true;
 }

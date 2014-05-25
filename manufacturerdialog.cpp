@@ -21,7 +21,7 @@ ManufacturerDialog::~ManufacturerDialog()
     delete m_ui;
 }
 
-Manufacturer* ManufacturerDialog::getManufacturer(QWidget* _parent)
+Manufacturer_old* ManufacturerDialog::getManufacturer(QWidget* _parent)
 {
     ManufacturerDialog d(_parent);
     if (d.exec() == QDialog::Accepted)
@@ -30,15 +30,15 @@ Manufacturer* ManufacturerDialog::getManufacturer(QWidget* _parent)
     return NULL;
 }
 
-Manufacturer* ManufacturerDialog::choosedManufacturer() const
+Manufacturer_old* ManufacturerDialog::choosedManufacturer() const
 {
     int r = m_ui->listWidget->currentRow();
-    return Manufacturer::manufacturers()[r];
+    return Manufacturer_old::manufacturers()[r];
 }
 
 void ManufacturerDialog::fillList()
 {
-    foreach(Manufacturer* m, Manufacturer::manufacturers())
+    foreach(Manufacturer_old* m, Manufacturer_old::manufacturers())
         m_ui->listWidget->addItem(m->name());
 }
 
@@ -57,7 +57,7 @@ void ManufacturerDialog::addManufacturer()
 
     m_ui->lineEdit->clear();
 
-    Manufacturer::addManufacturer(name);
+    Manufacturer_old::addManufacturer(name);
 
     updateList();
 }

@@ -20,7 +20,7 @@ ClientsWidget::ClientsWidget()
 {
     m_ui->setupUi(this);
 
-    m_clients = Person::persons(Person::Client);
+    m_clients = Person_old::persons(Person_old::Client);
 
     connect(m_ui->lName, SIGNAL(returnPressed()),                SLOT(addClient()));
     connect(m_ui->table, SIGNAL(itemChanged(QTableWidgetItem*)), SLOT(itemChanged(QTableWidgetItem*)));
@@ -59,7 +59,7 @@ void ClientsWidget::addClient()
 
     m_ui->lName->clear();
 
-    m_clients << new Person(name);
+    m_clients << new Person_old(name);
 
     updateClientsList();
 }
@@ -92,7 +92,7 @@ void ClientsWidget::correctTableColumnWidth()
 
 void ClientsWidget::itemChanged(QTableWidgetItem* _item)
 {
-    Person* c = m_clients[_item->row()];
+    Person_old* c = m_clients[_item->row()];
 
     if (_item->column() == NameColumn)
         c->setName(_item->text());

@@ -7,7 +7,7 @@
 
 namespace asmt
 {
-class Person
+class Person_old
 {
 public:
     enum Type
@@ -16,7 +16,7 @@ public:
         Master
     };
 
-    Person(const QString& _name, Type _type = Client);
+    Person_old(const QString& _name, Type _type = Client);
 
     Type type() const;
 
@@ -33,11 +33,11 @@ public:
     void setPhones(const QStringList& _phones);
 
     const QString& id() const;
-    static QList<Person*> persons(Type _type);
-    static Person* person(const QString& _id);
+    static QList<Person_old*> persons(Type _type);
+    static Person_old* person(const QString& _id);
 
 private:
-    Person();
+    Person_old();
     static void dowloadClients();
     static void checkListClients();
 

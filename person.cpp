@@ -8,13 +8,13 @@
 
 namespace asmt
 {
-static QList<Person*> ListClients;
+static QList<Person_old*> ListClients;
 static bool WasLoaded = false;
 
-Person::Person()
+Person_old::Person_old()
 {}
 
-Person::Person(const QString& _name, Type _type)
+Person_old::Person_old(const QString& _name, Type _type)
   : m_type(_type)
   , m_name(_name)
   , m_id(QUuid::createUuid().toString())
@@ -23,90 +23,90 @@ Person::Person(const QString& _name, Type _type)
     ListClients << this;
 }
 
-Person::Type Person::type() const
+Person_old::Type Person_old::type() const
 {
     return m_type;
 }
 
-const QString& Person::name() const
+const QString& Person_old::name() const
 {
     return m_name;
 }
 
-void Person::setName(const QString& _name)
+void Person_old::setName(const QString& _name)
 {
     m_name = _name;
     updateNameInDatabase();
 }
 
-const QString& Person::surname() const
+const QString& Person_old::surname() const
 {
     return m_surname;
 }
 
-void Person::setSurname(const QString& _surname)
+void Person_old::setSurname(const QString& _surname)
 {
     m_surname = _surname;
     updateSurnameInDatabase();
 }
 
-const QString& Person::patronymic() const
+const QString& Person_old::patronymic() const
 {
     return m_patronymic;
 }
 
-void Person::setPatronymic(const QString& _patronymic)
+void Person_old::setPatronymic(const QString& _patronymic)
 {
     m_patronymic = _patronymic;
     updatePatronymicInDatabase();
 }
 
-QString Person::fullName() const
+QString Person_old::fullName() const
 {
     return m_surname + " " + m_name + " " + m_patronymic;
 }
 
-const QStringList& Person::phones() const
+const QStringList& Person_old::phones() const
 {
     return m_phones;
 }
 
-void Person::setPhones(const QStringList& _phones)
+void Person_old::setPhones(const QStringList& _phones)
 {
     m_phones = _phones;
     updatePhonesInDatabase();
 }
 
-const QString& Person::id() const
+const QString& Person_old::id() const
 {
     return m_id;
 }
 
-QList<Person*> Person::persons(Type _type)
+QList<Person_old*> Person_old::persons(Type _type)
 {
     checkListClients();
 
-    QList<Person*> l;
+    QList<Person_old*> l;
 
-    foreach(Person* p, ListClients)
+    foreach(Person_old* p, ListClients)
         if (p->type() == _type)
             l << p;
 
     return l;
 }
 
-Person* Person::person(const QString& _id)
+Person_old* Person_old::person(const QString& _id)
 {
     checkListClients();
 
-    foreach(Person* p, ListClients)
+    foreach(Person_old* p, ListClients)
         if (p->m_id == _id)
             return p;
 
     return NULL;
 }
 
-void Person::checkListClients()
+void Person_old::checkListClients()
 {
     if (WasLoaded)
         return;
@@ -115,7 +115,7 @@ void Person::checkListClients()
     WasLoaded = true;
 }
 
-void Person::dowloadClients()
+void Person_old::dowloadClients()
 {
     QString text = "select id, name, surname, patronymic, phones, type from " + PersonTableName;
     QSqlQuery query(text);
@@ -124,19 +124,19 @@ void Person::dowloadClients()
 
     for (;query.next();)
     {
-        Person* g = new Person;
+        Person_old* g = new Person_old;
         g->m_id = query.value(0).toString();
         g->m_name = query.value(1).toString();
         g->m_surname = query.value(2).toString();
         g->m_patronymic = query.value(3).toString();
         g->m_phones = query.value(4).toString().split(" ");
-        g->m_type = Person::Type(query.value(5).toInt());
+        g->m_type = Person_old::Type(query.value(5).toInt());
 
         ListClients << g;
     }
 }
 
-void Person::addInDatabase()
+void Person_old::addInDatabase()
 {
     QString text = "insert into " + PersonTableName + "   values('" + m_id + "', '" + m_name + "', '" + m_surname + "', '" + m_patronymic + "', '" + m_phones.join(" ") + "', " + QString::number(m_type)+ ")";
 
@@ -146,7 +146,7 @@ void Person::addInDatabase()
         qDebug() << "Client addInDatabase query" << text << endl << query.lastError().databaseText();
 }
 
-void Person::updateNameInDatabase()
+void Person_old::updateNameInDatabase()
 {
     QString text = "update " + PersonTableName + "   set name = '" + m_name + "' where id = '" + m_id +"'";
     QSqlQuery query(text);
@@ -155,7 +155,7 @@ void Person::updateNameInDatabase()
         qDebug() << "Client setName query" << text << endl << query.lastError().databaseText ();
 }
 
-void Person::updateSurnameInDatabase()
+void Person_old::updateSurnameInDatabase()
 {
     QString text = "update " + PersonTableName + "   set surname = '" + m_surname + "' where id = '" + m_id +"'";
     QSqlQuery query(text);
@@ -164,7 +164,7 @@ void Person::updateSurnameInDatabase()
         qDebug() << "Client setSurname query" << text << endl << query.lastError().databaseText ();
 }
 
-void Person::updatePatronymicInDatabase()
+void Person_old::updatePatronymicInDatabase()
 {
     QString text = "update " + PersonTableName + "   set patronymic = '" + m_patronymic + "' where id = '" + m_id +"'";
     QSqlQuery query(text);
@@ -173,7 +173,7 @@ void Person::updatePatronymicInDatabase()
         qDebug() << "Client setPatronymic query" << text << endl << query.lastError().databaseText ();
 }
 
-void Person::updatePhonesInDatabase()
+void Person_old::updatePhonesInDatabase()
 {
     QString text = "update " + PersonTableName + "   set phones = '" + m_phones.join(" ") + "' where id = '" + m_id +"'";
     QSqlQuery query(text);

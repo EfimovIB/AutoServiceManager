@@ -6,7 +6,7 @@
 
 namespace asmt
 {
-class Manufacturer;
+class Manufacturer_old;
 class  Goods : QObject
 {
     Q_OBJECT
@@ -17,7 +17,7 @@ public:
     const QString& barcode() const;
     const QString& name() const;
     int count() const;
-    const Manufacturer* manufacturer() const;
+    const Manufacturer_old* manufacturer() const;
     QString manufacturerName() const;
     void setManufacturer(int _id);
 
@@ -40,7 +40,7 @@ private:
 private:
     QString m_barcode;
     QString m_name;
-    const Manufacturer* m_manufacturer;
+    const Manufacturer_old* m_manufacturer;
     int m_count;
 };
 }

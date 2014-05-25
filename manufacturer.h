@@ -6,20 +6,20 @@
 
 namespace asmt
 {
-class Manufacturer : public QObject
+class Manufacturer_old : public QObject
 {
     Q_OBJECT
 public:
     int id() const;
     const QString& name() const;
 
-    static Manufacturer* addManufacturer(const QString& _name);
-    static const QList<Manufacturer*> manufacturers();
-    static const Manufacturer* manufacturer(int _id);
+    static Manufacturer_old* addManufacturer(const QString& _name);
+    static const QList<Manufacturer_old*> manufacturers();
+    static const Manufacturer_old* manufacturer(int _id);
     static bool exist(int _id);
 
 private:
-    Manufacturer();
+    Manufacturer_old();
     static void checkListManufacturer();
     static void downloadListManufacturer();
     static int biggestExistId();

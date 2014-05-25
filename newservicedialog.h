@@ -12,9 +12,9 @@ namespace Ui
 
 namespace asmt
 {
-class Person;
-class Service;
-class Aggregate;
+class Person_old;
+class Service_old;
+class Aggregate_old;
 class NewServiceDialog : public QDialog
 {
     Q_OBJECT
@@ -23,15 +23,15 @@ public:
     ~NewServiceDialog();
 
     const QDate& date() const;
-    Person* master() const;
-    Aggregate* createAggregate() const;
+    Person_old* master() const;
+    Aggregate_old* createAggregate() const;
     QString comment() const;
     int box() const;
 
-    static Service* createNewService(Person* _client, QWidget* _parent = 0);
+    static Service_old* createNewService(Person_old* _client, QWidget* _parent = 0);
 
 private:
-    QList<Person*> m_masters;
+    QList<Person_old*> m_masters;
 
 private:
     Ui::NewServiceDialog* m_ui;

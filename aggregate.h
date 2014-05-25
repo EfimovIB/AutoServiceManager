@@ -6,11 +6,11 @@
 namespace asmt
 {
 
-class Aggregate
+class Aggregate_old
 {
-    Aggregate();
+    Aggregate_old();
 public:
-    Aggregate(const QString& _name, const QString& _type, const QString& _car, const QString& _number);
+    Aggregate_old(const QString& _name, const QString& _type, const QString& _car, const QString& _number);
 
     int id() const;
     void setId(int _id);
@@ -27,7 +27,7 @@ public:
     QString number() const;
     void setNumber(const QString& _number);
 
-    static Aggregate* aggregate(int _id);
+    static Aggregate_old* aggregate(int _id);
 private:
 
     void addInDatabase();

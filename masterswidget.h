@@ -13,7 +13,7 @@ class QTableWidgetItem;
 
 namespace asmt
 {
-class Person;
+class Person_old;
 
 class MastersWidget : public QWidget
 {
@@ -37,7 +37,7 @@ private slots:
 private:
     Ui::MastersWidget* m_ui;
     bool m_firstTime;
-    QList<Person*> m_clients;
+    QList<Person_old*> m_clients;
 };
 }
 #endif // MASTERSWIDGET_H

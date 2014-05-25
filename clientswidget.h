@@ -13,7 +13,7 @@ class QTableWidgetItem;
 
 namespace asmt
 {
-class Person;
+class Person_old;
 class ClientsWidget : public QWidget
 {
     Q_OBJECT
@@ -40,7 +40,7 @@ private:
 private:
     Ui::ClientsWidget* m_ui;
     bool m_firstTime;
-    QList<Person*> m_clients;
+    QList<Person_old*> m_clients;
 };
 }
 

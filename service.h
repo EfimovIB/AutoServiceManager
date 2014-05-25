@@ -6,41 +6,41 @@
 
 namespace asmt
 {
-class Person;
-class Service
+class Person_old;
+class Service_old
 {
 public:
-    Service(const Person* _client);
-    ~Service();
+    Service_old(const Person_old* _client);
+    ~Service_old();
 
     const QString& id() const;
     const QString& masterComments() const;
     const QString& clientComments() const;
     void setClientComments(const QString& _comment);
-    const Person* client() const;
-    const Person* master() const;
-    void setMaster(const Person* _master);
+    const Person_old* client() const;
+    const Person_old* master() const;
+    void setMaster(const Person_old* _master);
     const QDate& startDate() const;
     void setStartDate(const QDate& _date);
     QString startDateText() const;
     const QDate& endDate() const;
     QString endDateText() const;
 
-    static QList<Service> services(const Person* _client);
-    static QList<Service> servicesInProgress();
-    static QList<Service> servicesByStartDate(const QDate& _date);
-    static QList<Service> servicesByEndDate(const QDate& _date);
+    static QList<Service_old> services(const Person_old* _client);
+    static QList<Service_old> servicesInProgress();
+    static QList<Service_old> servicesByStartDate(const QDate& _date);
+    static QList<Service_old> servicesByEndDate(const QDate& _date);
 
-    Aggregate* aggregate() const;
-    void setAggregate(Aggregate* _aggregate);
+    Aggregate_old* aggregate() const;
+    void setAggregate(Aggregate_old* _aggregate);
 
     int boxNumber() const;
     void setBoxNumber(int _boxNumber);
 
 private:
 
-    Service();
-    static QList<Service> listByTextQueryCondition(const QString& _text);
+    Service_old();
+    static QList<Service_old> listByTextQueryCondition(const QString& _text);
 
     void addInDatabase();
     void updateClientCommentsInDatabase();
@@ -52,9 +52,9 @@ private:
 private:
 
     QString m_id;
-    const Person* m_client;
-    const Person* m_master;
-    Aggregate* m_aggregate;
+    const Person_old* m_client;
+    const Person_old* m_master;
+    Aggregate_old* m_aggregate;
     int m_boxNumber;
     QString m_changed;
     QString m_masterComments;

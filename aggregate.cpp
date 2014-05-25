@@ -8,11 +8,11 @@
 namespace asmt
 {
 
-Aggregate::Aggregate()
+Aggregate_old::Aggregate_old()
   : m_id(-1)
 {}
 
-Aggregate::Aggregate(const QString& _name, const QString& _type, const QString& _car, const QString& _number)
+Aggregate_old::Aggregate_old(const QString& _name, const QString& _type, const QString& _car, const QString& _number)
   : m_id(-1)
   , m_name(_name)
   , m_type(_type)
@@ -23,57 +23,57 @@ Aggregate::Aggregate(const QString& _name, const QString& _type, const QString& 
     m_id = maxValue();
 }
 
-int Aggregate::id() const
+int Aggregate_old::id() const
 {
     return m_id;
 }
 
-void Aggregate::setId(int _id)
+void Aggregate_old::setId(int _id)
 {
     m_id = _id;
 }
 
-QString Aggregate::number() const
+QString Aggregate_old::number() const
 {
     return m_number;
 }
 
-void Aggregate::setNumber(const QString& _number)
+void Aggregate_old::setNumber(const QString& _number)
 {
     m_number = _number;
 }
 
-QString Aggregate::car() const
+QString Aggregate_old::car() const
 {
     return m_car;
 }
 
-void Aggregate::setCar(const QString& _car)
+void Aggregate_old::setCar(const QString& _car)
 {
     m_car = _car;
 }
 
-QString Aggregate::type() const
+QString Aggregate_old::type() const
 {
     return m_type;
 }
 
-void Aggregate::setType(const QString& _agregatType)
+void Aggregate_old::setType(const QString& _agregatType)
 {
     m_type = _agregatType;
 }
 
-QString Aggregate::name() const
+QString Aggregate_old::name() const
 {
     return m_name;
 }
 
-void Aggregate::setName(const QString& _agregatName)
+void Aggregate_old::setName(const QString& _agregatName)
 {
     m_name = _agregatName;
 }
 
-Aggregate* Aggregate::aggregate(int _id)
+Aggregate_old* Aggregate_old::aggregate(int _id)
 {
     QString text = "select name, type, car, number from " + AggregateTableName + " where id = " + QString::number(_id);
     QSqlQuery query(text);
@@ -84,7 +84,7 @@ Aggregate* Aggregate::aggregate(int _id)
         return NULL;
     }
 
-    Aggregate* a = new Aggregate;
+    Aggregate_old* a = new Aggregate_old;
     a->m_id = _id;
     a->m_name = query.value(0).toString();
     a->m_type = query.value(1).toString();
@@ -93,7 +93,7 @@ Aggregate* Aggregate::aggregate(int _id)
     return a;
 }
 
-void Aggregate::addInDatabase()
+void Aggregate_old::addInDatabase()
 {
     QString id = QString::number(maxValue() + 1);
     QString text = "insert into " + AggregateTableName + "   values("
@@ -109,7 +109,7 @@ void Aggregate::addInDatabase()
         qDebug() << "Aggregate addInDatabase query" << text << endl << query.lastError().databaseText();
 }
 
-int Aggregate::maxValue() const
+int Aggregate_old::maxValue() const
 {
     QString text = "SELECT MAX(id) AS value FROM " + AggregateTableName;
 

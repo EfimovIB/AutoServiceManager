@@ -36,7 +36,7 @@ void ServiceWidget::updateForm()
 
 void ServiceWidget::fill()
 {
-    m_services = Service::servicesInProgress();
+    m_services = Service_old::servicesInProgress();
 
     m_ui->table->setRowCount(m_services.size());
 
