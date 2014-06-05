@@ -20,8 +20,11 @@ namespace asmt
         QString patronymic;
         QStringList phone;
 
+        bool isValid() const;
+
         bool insertInDatabase();
 
+        static QSharedPointer<Person> person(unsigned int _id);
         static QList<QSharedPointer<Person> > persons();
         static QList<QSharedPointer<Person> > persons(const QString& _phone);
         static QStringList phones(unsigned int _idPerson);
@@ -36,7 +39,12 @@ namespace asmt
         MasterState state;
         QDate date;
 
+        bool isValid() const;
+
+        bool insertInDatabase();
+
         static QList<QSharedPointer<Master>> masters();
+        static QSharedPointer<Master> master(unsigned int _id);
     };
 
     struct Invoice
@@ -119,6 +127,57 @@ namespace asmt
         Car car;
 
         bool insertInDatabase();
+        static QSharedPointer<Aggregate> aggregate(unsigned int _id);
+    };
+
+    struct Service
+    {
+        Service() : id(0), state(S_Accepted), price(0), boxNumber(0) {}
+
+        unsigned int id;
+        Aggregate aggregate;
+        Person person;
+        Master master;
+        ServiceState state;
+        QDate startDate;
+        QDate endDate;
+        QString personComments;
+        QString mastersComments;
+        QString changed;
+        int boxNumber;
+        qreal price;
+
+        bool insertInDatabase();
+
+        static QSharedPointer<Service> service(unsigned int _id);
+        static QList<QSharedPointer<Service> > service();
+    };
+
+    struct SimplifyService
+    {
+        SimplifyService() : id(0), state(S_Accepted), boxNumber(0) {}
+
+        unsigned int id;
+        QString aggregateName;
+        QString personName;
+        QString personPatronymic;
+        ServiceState state;
+        QDate startDate;
+        QDate endDate;
+        int boxNumber;
+
+        static QList<QSharedPointer<SimplifyService> > service();
+    };
+
+    struct UsedSpares
+    {
+        UsedSpares() : id(0), spare(NULL), service(NULL) {}
+
+        unsigned int id;
+        QSharedPointer<Spare> spare;
+        QSharedPointer<Service> service;
+
+        bool insertInDatabase() { return false; } // todo
     };
 }
 

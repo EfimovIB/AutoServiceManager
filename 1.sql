@@ -1,4 +1,26 @@
-﻿select * from Spare
+﻿select 
+	  Aggregate.name
+	, Aggregate.number
+	, AggregateType.id
+	, AggregateType.name
+	, Car.id
+	, Car.name
+from 
+	  Aggregate
+	, AggregateType
+	, Car 
+where
+	    Aggregate.id=1
+	and AggregateType.id=Aggregate.idAggregateType
+	and Car.id=Aggregate.idCar
+
+select Person.name, Person.surname, Person.patronymic, Phones.phone from Person, Phones where Phones.idPerson=Person.id and Person.id = 
+
+select * from AggregateType
+
+select * from Car
+
+select * from Spare
 
 select * from InvoiceSpare
 
@@ -36,3 +58,30 @@ update Spare set count=(select sum(count) from InvoiceSpare where Spare.id=Invoi
 update Spare set count=Spare.count-(select sum(count) from UsedSpare where Spare.id=UsedSpare.idSpare) from UsedSpare where Spare.id=UsedSpare.idSpare;
 
 update Spare set count=(select sum(count) from InvoiceSpare where Spare.id=InvoiceSpare.idSpare) from InvoiceSpare where Spare.id=InvoiceSpare.idSpare;update Spare set count=Spare.count-(select sum(count) from UsedSpare where Spare.id=UsedSpare.idSpare) from UsedSpare where Spare.id=UsedSpare.idSpare;
+
+
+
+select * from Service
+select * from Aggregate
+select * from Phones
+
+insert into Phones(idPerson, phone) values(4, 'К Т 1 2')
+
+select
+	  Service.id
+	, Service.idServiceState
+	, Service.boxNumber
+	, Service.StartDate
+	, Service.endDate
+	, Service.price
+	, Aggregate.name as aggregateName
+	, Person.name as personName
+	, Person.patronymic as personPatronymic
+	, Phones.phone as personPhone
+ from Service, Aggregate, Person, Phones
+ where
+	Aggregate.id = Service.idAggregate
+ and    Person.id = Service.idPerson
+ and    Person.id = Phones.idPerson
+
+

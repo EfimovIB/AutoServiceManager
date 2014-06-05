@@ -32,6 +32,10 @@ signals:
 
 private:
 
+    void clearForm();
+
+private:
+
     Ui::ContentWidgetServiceCreator* m_ui;
 };
 }

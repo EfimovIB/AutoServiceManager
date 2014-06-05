@@ -8,5 +8,7 @@
         <file>pictures/Exit.png</file>
         <file>pictures/accept.png</file>
         <file>pictures/reject.png</file>
+        <file>pictures/edit.png</file>
+        <file>pictures/save.png</file>
     </qresource>
 </RCC>

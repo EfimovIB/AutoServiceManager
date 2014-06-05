@@ -2,6 +2,7 @@
 #define CONTENTWIDGETSERVICE_H
 
 #include "contentwidget.h"
+class QModelIndex;
 
 namespace Ui
 {
@@ -11,6 +12,7 @@ namespace Ui
 namespace asmt
 {
 class ContentWidgetServiceCreator;
+class TreeItemModelService;
 
 class ContentWidgetService : public ContentWidget
 {
@@ -31,10 +33,16 @@ public:
 private slots:
 
     void updateTreeView();
+    void currentChanged(const QModelIndex&, const QModelIndex&);
 
 private:
-    Ui::ContentWidgetService *ui;
+
+    void fillDetails(unsigned int _id);
+
+private:
+    Ui::ContentWidgetService *m_ui;
     ContentWidgetServiceCreator* m_creatInvoice;
+    TreeItemModelService* m_model;
 };
 
 }

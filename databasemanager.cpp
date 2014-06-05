@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QTextCodec>
 
 #include "databasemanager.h"
 #include "asmapi.h"
@@ -122,11 +123,22 @@ text = "create table " + ServiceStateTableName + " ("
 
 execInitTable(text);
 
+for (int i = 1; i < ServiceStateCount; i++)
+{
+    QString state = ServiceStateToStr(ServiceState(i));
+
+    if (state.isEmpty() == false)
+    {
+        text = "insert into " + ServiceStateTableName + " (id, name) values(" + QString::number(i) + ", '" + state + "')" ;
+        execInitTable(text);
+    }
+}
+
 text = "create table " + ServiceTableName + " ("
     "id              SERIAL PRIMARY KEY,"
     "idAggregate     int not null,"
     "idPerson        int not null,"
-    "idMaster        int not null,"
+    "idMaster        int default 0,"
     "idServiceState  int not null,"
     "boxNumber       int,"
     "personComments  text,"
@@ -210,6 +222,7 @@ void DatabaseManager::dropTable(const QString& _name)
 
 void DatabaseManager::execInitTable(const QString& _text)
 {
+    // todo: make it in one request
     QSqlQuery query(_text);
 
     if (query.isActive() == false)

@@ -13,6 +13,8 @@ ContentWidgetServiceCreator::ContentWidgetServiceCreator(MainWidget* _mainWidget
   , m_ui(new Ui::ContentWidgetServiceCreator)
 {
   m_ui->setupUi(this);
+
+  m_ui->date->setDate(QDate::currentDate());
 }
 
 ContentWidgetServiceCreator::ContentWidgetServiceCreator(ContentWidget* _contentWidget)
@@ -21,7 +23,7 @@ ContentWidgetServiceCreator::ContentWidgetServiceCreator(ContentWidget* _content
 {
   m_ui->setupUi(this);
 
-  Aggregate a;
+  m_ui->date->setDate(QDate::currentDate());
 
   // -------------------------
 
@@ -63,25 +65,55 @@ void ContentWidgetServiceCreator::topButtonclicked()
         return;
     }
 
-//    Aggregate a;
+    Aggregate a;
 
-//    a.name = m_ui->agregateName->text();
-//    a.number = m_ui->agregateNumber->text();
-//    a.type = AggregateType(m_ui->agregateName->text());
-//    a.car = Car(m_ui->car->text());
+    a.name = m_ui->agregateName->text();
+    a.number = m_ui->agregateNumber->text();
+    a.type = AggregateType(m_ui->agregateName->text());
+    a.car = Car(m_ui->car->text());
 
-//    if (a.insertInDatabase() == false)
+    if (a.insertInDatabase() == false)
     {
         QSqlDatabase::database().rollback();
 
         return;
     }
 
-    // todo firstly : create Service
+    Service s;
+    s.aggregate = a;
+    s.person = p;
+    s.startDate = m_ui->date->date();
+    s.personComments = m_ui->comments->toPlainText();
+
+    if (s.insertInDatabase() == false)
+    {
+        QSqlDatabase::database().rollback();
+
+        return;
+    }
+
     QSqlDatabase::database().commit();
 
     emit created();
-    // todo add clearing and switch
+
+    switchOnPrev();
+
+    clearForm();
+}
+
+void ContentWidgetServiceCreator::clearForm()
+{
+    m_ui->name->clear();
+    m_ui->surname->clear();
+    m_ui->patronymic->clear();
+    m_ui->telephone->clear();
+    m_ui->agregateName->clear();
+    m_ui->agregateNumber->clear();
+    m_ui->agregateType->clear();
+    m_ui->boxNumber->clear();
+    m_ui->car->clear();
+    m_ui->comments->clear();
+    m_ui->date->setDate(QDate::currentDate());
 }
 
 }

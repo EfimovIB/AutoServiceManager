@@ -1,6 +1,8 @@
 #ifndef ASM_ASMAPI_H
 #define ASM_ASMAPI_H
 #include <QString>
+#include <QTextCodec>
+#include <QObject>
 
 namespace asmt
 {
@@ -32,7 +34,31 @@ namespace asmt
     {
         switch (s)
         {
-        case Works: return "Работает";
+        case Works: return  QObject::tr("Работает");
+        }
+
+        return "";
+    }
+
+    enum ServiceState
+    {
+        S_Accepted    = 1,
+        S_Progress    = 2,
+        S_Done        = 3,
+        S_Warrantying = 4,
+        S_Given       = 5,
+        ServiceStateCount
+    };
+
+    static QString ServiceStateToStr(ServiceState s)
+    {
+        switch (s)
+        {
+        case S_Accepted:    return QObject::tr("Принят");
+        case S_Progress:    return QObject::tr("В работе");
+        case S_Done:        return QObject::tr("Сделан");
+        case S_Warrantying: return QObject::tr("Гарантийный ремонт");
+        case S_Given:       return QObject::tr("Отдан");
         }
 
         return "";
