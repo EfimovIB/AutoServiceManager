@@ -16,6 +16,75 @@ where
 
 select Person.name, Person.surname, Person.patronymic, Phones.phone from Person, Phones where Phones.idPerson=Person.id and Person.id = 
 
+
+
+
+
+CREATE OR REPLACE FUNCTION setAggregateTypeForId(_name TEXT, _aggregateId integer) RETURNS integer AS $$
+DECLARE
+	x integer;
+BEGIN
+	IF
+		(select count(*) from AggregateType where name=_name) = 0
+	THEN
+		insert into AggregateType(name) values(_name);
+	END IF;
+
+	IF
+		(select count(*) from Aggregate where id=_aggregateId) = 0
+	THEN
+		RETURN -1;
+
+	ELSE
+	
+		x := (select id from AggregateType where name=_name);
+	
+		update Aggregate set idAggregateType=x where id=_aggregateId;
+		
+	END IF;
+	
+	RETURN  x;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+CREATE OR REPLACE FUNCTION setAggregateTypeForId(_name TEXT, _aggregateId integer) RETURNS integer AS $$
+DECLARE
+	x integer;
+BEGIN
+	IF
+		(select count(*) from AggregateType where name=_name) = 0
+	THEN
+		insert into AggregateType(name) values(_name);
+	END IF;
+
+	IF
+		(select count(*) from Aggregate where id=_aggregateId) = 0
+	THEN
+		RETURN -1;
+
+	ELSE
+	
+		x := (select id from AggregateType where name=_name);
+	
+		update Aggregate set idAggregateType=x where id=_aggregateId;
+		
+	END IF;
+	
+	RETURN  x;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+select * from aggregateTypeId('Стартер3');
+select * from setAggregateTypeForId('Ручной', 2);
+
+select * from Aggregate
+
 select * from AggregateType
 
 select * from Car
@@ -83,5 +152,3 @@ select
 	Aggregate.id = Service.idAggregate
  and    Person.id = Service.idPerson
  and    Person.id = Phones.idPerson
-
-

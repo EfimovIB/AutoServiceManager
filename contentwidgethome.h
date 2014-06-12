@@ -10,9 +10,11 @@ namespace Ui
 namespace asmt
 {
 class ContentWidgetService;
+class ContentWidgetClients;
 class ContentWidgetWareHouse;
 class ContentWidgetSettings;
 class ContentWidgetMasters;
+
 class ContentWidgetHome : public ContentWidget
 {
     Q_OBJECT
@@ -28,6 +30,7 @@ public:
 private slots:
 
     void serviceClicked();
+    void clientsClicked();
     void warehouseClicked();
     void settingsClicked();
     void mastersClicked();
@@ -36,6 +39,7 @@ private:
 
     Ui::ContentWidgetHome*   m_ui;
     ContentWidgetService*    m_service;
+    ContentWidgetClients*    m_clients;
     ContentWidgetWareHouse*  m_warehouse;
     ContentWidgetSettings*   m_settings;
     ContentWidgetMasters*    m_masters;

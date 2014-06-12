@@ -69,7 +69,7 @@ void ContentWidgetServiceCreator::topButtonclicked()
 
     a.name = m_ui->agregateName->text();
     a.number = m_ui->agregateNumber->text();
-    a.type = AggregateType(m_ui->agregateName->text());
+    a.type = AggregateType(m_ui->agregateType->text());
     a.car = Car(m_ui->car->text());
 
     if (a.insertInDatabase() == false)

@@ -38,8 +38,7 @@ SOURCES += main.cpp \
     treeitemmodelwarehouse.cpp \
     contentwidgetservicecreator.cpp \
     treeitemmodelservice.cpp \
-    contentwidgetclients.cpp \
-    contentwidgetclientscreator.cpp
+    contentwidgetclients.cpp
 
 FORMS += \
     MainWidget.ui \
