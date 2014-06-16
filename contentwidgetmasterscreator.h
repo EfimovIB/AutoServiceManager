@@ -16,8 +16,9 @@ class ContentWidgetMastersCreator : public ContentWidget
     Q_OBJECT
 
 public:
-    explicit ContentWidgetMastersCreator(MainWidget* _mainWidget);
-    explicit ContentWidgetMastersCreator(ContentWidget* _prev);
+
+    explicit ContentWidgetMastersCreator(MainWidget* _mainWidget, bool masterCreator);
+    explicit ContentWidgetMastersCreator(ContentWidget* _prev, bool masterCreator);
     ~ContentWidgetMastersCreator();
 
     void topButtonclicked();
@@ -40,6 +41,8 @@ private:
 private:
 
     Ui::ContentWidgetMastersCreator* m_ui;
+
+    bool m_masterCreator;
 };
 
 }

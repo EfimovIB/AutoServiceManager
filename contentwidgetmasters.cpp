@@ -26,7 +26,7 @@ void ContentWidgetMasters::topButtonclicked()
 {
     if (!m_creator)
     {
-        m_creator = new ContentWidgetMastersCreator(this);
+        m_creator = new ContentWidgetMastersCreator(this, true);
         connect(m_creator, SIGNAL(created()), SLOT(updateList()));
     }
 

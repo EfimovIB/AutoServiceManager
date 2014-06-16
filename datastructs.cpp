@@ -163,9 +163,54 @@ QSharedPointer<Person> Person::person(unsigned int _id)
 
 }
 
-QList<QSharedPointer<Person> > Person::persons()
+QMap<int, QSharedPointer<Person> > Person::persons()
 {
-    return QList<QSharedPointer<Person> >(); // todo
+    QMap<int, QSharedPointer<Person> > m;
+
+    QString text = "select "
+                 + PersonTableName + ".id"
+            ", " + PersonTableName + ".name"
+            ", " + PersonTableName + ".surname"
+            ", " + PersonTableName + ".patronymic"
+            ", " + PhoneTableName + ".phone"
+            " from "
+             + PersonTableName +
+            ", " + PhoneTableName +
+            " where "
+            + PersonTableName + ".id=" + PhoneTableName + ".idPerson";
+
+    QSqlQuery query(text);
+
+    if (query.isActive() == false)
+    {
+        qDebug() << "Person query " << text << endl << query.lastError().databaseText();
+
+        return m;
+    }
+
+    for (;query.next();)
+    {
+        QMap<int, QSharedPointer<Person> >::iterator it = m.find(query.value(0).toInt());
+
+        if (it == m.end())
+        {
+            QSharedPointer<Person> p = QSharedPointer<Person>(new Person);
+
+            p->id = query.value(0).toInt();
+            p->name = query.value(1).toString();
+            p->surname = query.value(2).toString();
+            p->patronymic = query.value(3).toString();
+            p->phone << query.value(4).toString();
+
+            m[p->id] = p;
+        }
+        else
+        {
+            it->value->phone << query.value(4).toString();
+        }
+    }
+
+    return m;
 }
 
 QList<QSharedPointer<Person> > Person::persons(const QString& _phone)

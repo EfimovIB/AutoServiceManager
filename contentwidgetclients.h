@@ -10,7 +10,7 @@ class ContentWidgetClients;
 
 namespace asmt
 {
-class ContentWidgetClientsCreator;
+class ContentWidgetMastersCreator;
 
 class ContentWidgetClients : public ContentWidget
 {
@@ -27,10 +27,16 @@ public:
     QIcon topButtonIcon() { return QIcon(":/button/pictures/new.png"); }
     QIcon bottomButtonIcon() { return QIcon(":/button/pictures/home.png"); }
 
+    void updateTree();
+
+private:
+
+    void init();
+
 private:
 
     Ui::ContentWidgetClients* m_ui;
-    ContentWidgetClientsCreator* m_creator;
+    ContentWidgetMastersCreator* m_creator;
 };
 }
 

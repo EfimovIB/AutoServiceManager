@@ -1,4 +1,8 @@
-﻿select 
+﻿select Person.id, Person.name, Person.surname, Person.patronymic, Phones.phone from Person, Phones where Person.id=Phones.idPerson
+
+select * from Masters
+
+select 
 	  Aggregate.name
 	, Aggregate.number
 	, AggregateType.id

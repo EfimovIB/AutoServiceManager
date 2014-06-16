@@ -1,8 +1,9 @@
 #include <QDebug>
 
 #include "contentwidgetclients.h"
-#include "contentwidgetclientscreator.h"
+#include "contentwidgetmasterscreator.h"
 #include "ui_ContentWidgetClients.h"
+#include "treeitemmodelclients.h"
 
 namespace asmt
 {
@@ -11,7 +12,7 @@ ContentWidgetClients::ContentWidgetClients(MainWidget* _mainWidget)
   , m_ui(new Ui::ContentWidgetClients)
   , m_creator(NULL)
 {
-    m_ui->setupUi(this);
+    init();
 }
 
 ContentWidgetClients::ContentWidgetClients(ContentWidget* _contentWidget)
@@ -19,7 +20,7 @@ ContentWidgetClients::ContentWidgetClients(ContentWidget* _contentWidget)
   , m_ui(new Ui::ContentWidgetClients)
   , m_creator(NULL)
 {
-    m_ui->setupUi(this);
+    init();
 }
 
 ContentWidgetClients::~ContentWidgetClients()
@@ -30,9 +31,23 @@ ContentWidgetClients::~ContentWidgetClients()
 void ContentWidgetClients::topButtonclicked()
 {
     if (!m_creator)
-        m_creator = new ContentWidgetClientsCreator(this);
+        m_creator = new ContentWidgetMastersCreator(this, false);
 
     switchOn(m_creator);
+}
+
+void ContentWidgetClients::updateTree()
+{
+    m_ui->treeView->setModel(new TreeItemModelClients);
+}
+
+void ContentWidgetClients::init()
+{
+    m_ui->setupUi(this);
+
+    connect(m_creator, SIGNAL(created()), SLOT(updateList()));
+
+    updateTree();
 }
 
 }

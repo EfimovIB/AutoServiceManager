@@ -18,7 +18,7 @@ HEADERS +=  asmapi.h \
     contentwidgetservicecreator.h \
     treeitemmodelservice.h \
     contentwidgetclients.h \
-    contentwidgetclientscreator.h
+    treeitemmodelclients.h
 
 SOURCES += main.cpp \
            databasemanager.cpp \
@@ -39,7 +39,7 @@ SOURCES += main.cpp \
     contentwidgetservicecreator.cpp \
     treeitemmodelservice.cpp \
     contentwidgetclients.cpp \
-    contentwidgetclientscreator.cpp
+    treeitemmodelclients.cpp
 
 FORMS += \
     MainWidget.ui \
@@ -51,7 +51,6 @@ FORMS += \
     ContentWidgetMastersCreator.ui \
     ContentWidgetInvoiceCreator.ui \
     contentwidgetservicecreator.ui \
-    ContentWidgetClients.ui \
-    ContentWidgetClientsCreator.ui
+    ContentWidgetClients.ui
 
 RESOURCES += asm.qrc

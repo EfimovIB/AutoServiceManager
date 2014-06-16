@@ -1,19 +1,21 @@
-#ifndef TREEITEMMODELMASTERS_H
-#define TREEITEMMODELMASTERS_H
+#ifndef TREEITEMMODELCLIENTS_H
+#define TREEITEMMODELCLIENTS_H
 
 #include <QAbstractItemModel>
-#include <QList>
+#include <QMap>
 #include <QSharedPointer>
 
 namespace asmt
 {
-struct Master;
+struct Person;
 
-class TreeItemModelMasters : public QAbstractItemModel
+class TreeItemModelClients: public QAbstractItemModel
 {
     Q_OBJECT
+
 public:
-    explicit TreeItemModelMasters(QObject* _parent = 0);
+
+    explicit TreeItemModelClients(QObject* _parent = 0);
 
     int columnCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
@@ -23,13 +25,13 @@ public:
 
 private:
 
-    QSharedPointer<Master> master(quint32 _id) const;
+    QSharedPointer<Person> master(quint32 _id) const;
 
 private:
 
-    QList<QSharedPointer<Master> > m_list; // todo QMap<int id, QSharedPointer<Master> > m_map;
+    QMap<int, QSharedPointer<Person> > m_map;
 };
 
 }
 
-#endif // TREEITEMMODELMASTERS_H
+#endif // TREEITEMMODELCLIENTS_H

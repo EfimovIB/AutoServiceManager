@@ -7,17 +7,22 @@
 #include "contentwidgetmasterscreator.h"
 #include "ui_ContentWidgetMastersCreator.h"
 #include "asmapi.h"
+#include "datastructs.h"
+
 namespace asmt
 {
 
-ContentWidgetMastersCreator::ContentWidgetMastersCreator(MainWidget* _mainWidget)
+ContentWidgetMastersCreator::ContentWidgetMastersCreator(MainWidget* _mainWidget, bool masterCreator)
   : ContentWidget(_mainWidget)
+  , m_masterCreator(masterCreator)
 {
     init();
+    // todo: rename class
 }
 
-ContentWidgetMastersCreator::ContentWidgetMastersCreator(ContentWidget*_prev)
-    : ContentWidget(_prev)
+ContentWidgetMastersCreator::ContentWidgetMastersCreator(ContentWidget*_prev, bool masterCreator)
+  : ContentWidget(_prev)
+  , m_masterCreator(masterCreator)
 {
     init();
 }
@@ -61,61 +66,54 @@ void ContentWidgetMastersCreator::init()
 {
     m_ui = new Ui::ContentWidgetMastersCreator;
     m_ui->setupUi(this);
-    m_ui->name->setText(tr("МИ1"));
-    m_ui->surname->setText(tr("МФ1"));
-    m_ui->patronymic->setText(tr("МО1"));
-    m_ui->telephone->setText(tr("МТ1"));
+
+    if (m_masterCreator)
+    {
+        m_ui->name->setText(tr("МИ1"));
+        m_ui->surname->setText(tr("МФ1"));
+        m_ui->patronymic->setText(tr("МО1"));
+        m_ui->telephone->setText(tr("МТ1"));
+    }
+    else
+    {
+        m_ui->name->setText(tr("КИ1"));
+        m_ui->surname->setText(tr("КФ1"));
+        m_ui->patronymic->setText(tr("КО1"));
+        m_ui->telephone->setText(tr("КТ1"));
+    }
 }
 
 bool ContentWidgetMastersCreator::insertDataInDatabase()
 {
     QSqlDatabase::database().transaction();
 
-    QString text = "insert into " + PersonTableName + "(name, surname, patronymic) values("
-                              "'" + m_ui->name->text() + "'"
-                            ", '" + m_ui->surname->text() + "'"
-                            ", '" + m_ui->patronymic->text() + "')";
+    Person p;
+    p.name = m_ui->name->text();
+    p.surname = m_ui->surname->text();
+    p.patronymic = m_ui->patronymic->text();
+    p.phone << m_ui->telephone->text();
 
-    QSqlQuery query(text);
-
-    if (query.isActive() == false)
+    if (m_masterCreator)
     {
-        qDebug() << "MastersCreator insertDataInDatabase query " << text << endl << query.lastError().databaseText();
+        Master m;
+        m.person = p;
+        m.date = QDate::currentDate();
 
-        QSqlDatabase::database().rollback();
+        if (!m.insertInDatabase())
+        {
+            QSqlDatabase::database().rollback();
 
-        return false;
+            return false;
+        }
     }
-
-    text = "insert into " + PhoneTableName + " values("
-                      "'" + m_ui->telephone->text() + "'"
-                      ", (select max(id) from " + PersonTableName + "))";
-
-    query.exec(text);
-
-    if (query.isActive() == false)
+    else
     {
-        qDebug() << "MastersCreator insertDataInDatabase query " << text << endl << query.lastError().databaseText();
+        if (!p.insertInDatabase())
+        {
+            QSqlDatabase::database().rollback();
 
-        QSqlDatabase::database().rollback();
-
-        return false;
-    }
-
-    text = "insert into " + MasterTableName + "(idPerson, idMasterState, startDate) values("
-  "(select max(id) from " + PersonTableName + ")"
-                     ", " + QString::number(Works) +
-                    ", '" + QDate::currentDate().toString(DbDateFormat)+ "')";
-
-    query.exec(text);
-
-    if (query.isActive() == false)
-    {
-        qDebug() << "MastersCreator insertDataInDatabase query " << text << endl << query.lastError().databaseText();
-
-        QSqlDatabase::database().rollback();
-
-        return false;
+            return false;
+        }
     }
 
     QSqlDatabase::database().commit();

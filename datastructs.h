@@ -5,6 +5,7 @@
 #include <QDate>
 #include <QSharedPointer>
 #include <QPair>
+#include <QMap>
 
 #include "asmapi.h"
 
@@ -25,14 +26,14 @@ namespace asmt
         bool insertInDatabase();
 
         static QSharedPointer<Person> person(unsigned int _id);
-        static QList<QSharedPointer<Person> > persons();
+        static QMap<int, QSharedPointer<Person> > persons();
         static QList<QSharedPointer<Person> > persons(const QString& _phone);
         static QStringList phones(unsigned int _idPerson);
     };
 
     struct Master
     {
-        Master() : id(0) {}
+        Master() : id(0), state(MasterState::Works) {}
 
         unsigned int id;
         Person person;
